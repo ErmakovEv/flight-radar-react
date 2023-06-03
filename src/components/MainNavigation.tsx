@@ -9,7 +9,7 @@ function MainNavigation() {
             <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <NavLink to="/auth">Registration</NavLink>
+            <NavLink to="/login">Registration</NavLink>
           </li>
           <li>
             <NavLink to="/admin">Admin</NavLink>
