@@ -3,37 +3,40 @@ import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
 } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import MainPage from './pages/MainPage';
-import AdminPage from './pages/AdminPage';
+import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
 import RootLayout from './components/RootLayout';
-
-import RequireAuth from './hoc/RequireAuth';
-
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<RootLayout />} errorElement={<ErrorPage />}>
-      <Route index element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-
-      <Route
-        path="/main"
-        element={
-          <RequireAuth>
-            <MainPage />
-          </RequireAuth>
-        }
-      />
-      <Route path="/admin" element={<AdminPage />} />
-      <Route />
-    </Route>
-  )
-);
+import { IRootState, useAppDispatch } from './store/store';
+import { getProfile } from './store/reducers/actionCreators';
 
 function App() {
+  const isLoggedIn = useSelector(
+    (state: IRootState) => !!state.auth.authData.accessToken
+  );
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<RootLayout />} errorElement={<ErrorPage />}>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/dashboard"
+          element={isLoggedIn ? <MainPage /> : <Navigate to="/" />}
+        />
+      </Route>
+    )
+  );
+
   return <RouterProvider router={router} />;
 }
 

@@ -1,22 +1,24 @@
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { IRootState } from '../store/store';
 
 function MainNavigation() {
+  const isLoggedIn = useSelector(
+    (state: IRootState) => !!state.auth.authData.accessToken
+  );
+
   return (
     <header>
       <nav>
         <ul>
           <li>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/">Main</NavLink>
           </li>
-          <li>
-            <NavLink to="/login">Registration</NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin">Admin</NavLink>
-          </li>
-          <li>
-            <NavLink to="/main">Main</NavLink>
-          </li>
+          {isLoggedIn && (
+            <li>
+              <NavLink to="/dashboard">Dashboard</NavLink>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
