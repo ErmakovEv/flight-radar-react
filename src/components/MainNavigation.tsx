@@ -1,18 +1,27 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../hooks/redux';
 import { IRootState } from '../store/store';
+import { logoutUser } from '../store/reducers/actionCreators';
 
 function MainNavigation() {
   const isLoggedIn = useSelector(
     (state: IRootState) => !!state.auth.authData.accessToken
   );
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const logoutHandler = () => {
+    dispatch(logoutUser());
+    navigate('/');
+  };
+
   return (
     <header>
       <nav>
         <ul>
           <li>
-            <NavLink to="/">Main</NavLink>
+            <NavLink to="/">Home</NavLink>
           </li>
           {isLoggedIn && (
             <li>
@@ -20,6 +29,11 @@ function MainNavigation() {
             </li>
           )}
         </ul>
+        {isLoggedIn ? (
+          <button onClick={logoutHandler} type="button">
+            Log out
+          </button>
+        ) : null}
       </nav>
     </header>
   );
