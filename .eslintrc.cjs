@@ -15,6 +15,7 @@ module.exports = {
     project: './tsconfig.json',
   },
   plugins: ['react-refresh', 'prettier'],
+  ignorePatterns: ['vite.config.ts'],
   rules: {
     'react-refresh/only-export-components': 'warn',
     'react/react-in-jsx-scope': 0,

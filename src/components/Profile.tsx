@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../store/store';
+import { useAppDispatch } from '../hooks/redux';
 import { logoutUser, getProfile } from '../store/reducers/actionCreators';
 
 function Profile() {

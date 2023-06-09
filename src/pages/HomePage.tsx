@@ -1,11 +1,10 @@
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../hooks/redux';
 import LoginForm from '../components/LoginForm';
-import { IRootState } from '../store/store';
 import Profile from '../components/Profile';
 
 function HomePage() {
-  const isLoggedIn = useSelector(
-    (state: IRootState) => !!state.auth.authData.accessToken
+  const isLoggedIn = useAppSelector(
+    (state) => !!state.auth.authData.accessToken
   );
 
   return (

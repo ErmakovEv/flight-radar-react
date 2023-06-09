@@ -5,8 +5,10 @@ import { getAccessToken, logoutUser } from '../store/reducers/actionCreators';
 
 import Endpoints from './endpoints';
 
-const axiosInstance = axios.create({});
-
+const axiosInstance = axios.create({
+  baseURL: 'localhost:3000',
+  withCredentials: true,
+});
 const urlsSkipAuth = [
   Endpoints.AUTH.LOGIN,
   Endpoints.AUTH.REFRECH,
@@ -17,7 +19,6 @@ axiosInstance.interceptors.request.use(async (config) => {
   if (config.url && urlsSkipAuth.includes(config.url)) {
     return config;
   }
-
   const accessToken = await store.dispatch(getAccessToken());
   if (accessToken) {
     const autharization = `Bearer ${accessToken}`;

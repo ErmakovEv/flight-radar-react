@@ -6,17 +6,16 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector, useAppDispatch } from './hooks/redux';
 import MainPage from './pages/MainPage';
 import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
 import RootLayout from './components/RootLayout';
-import { IRootState, useAppDispatch } from './store/store';
 import { getProfile } from './store/reducers/actionCreators';
 
 function App() {
-  const isLoggedIn = useSelector(
-    (state: IRootState) => !!state.auth.authData.accessToken
+  const isLoggedIn = useAppSelector(
+    (state) => !!state.auth.authData.accessToken
   );
 
   const dispatch = useAppDispatch();

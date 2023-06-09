@@ -6,3 +6,8 @@ export interface ILoginReq {
 export interface ILoginRes {
   accessToken: string;
 }
+
+export interface IProfileRes {
+  email: string;
+  role: string;
+}

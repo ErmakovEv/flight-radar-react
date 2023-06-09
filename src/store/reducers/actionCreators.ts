@@ -2,7 +2,7 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-console */
 import { Dispatch } from '@reduxjs/toolkit';
-import { AxiosPromise } from 'axios';
+import axios, { AxiosPromise } from 'axios';
 import {
   login,
   logout,
@@ -33,7 +33,6 @@ export const loginUser =
     try {
       dispatch(authSlice.actions.loginStart());
       const res = await login(data);
-
       dispatch(authSlice.actions.loginSucess(res.data.accessToken));
       dispatch(getProfile());
     } catch (e: any) {
@@ -66,10 +65,10 @@ export const getAccessToken =
         if (refreshTokenRequest === null) {
           refreshTokenRequest = refreshToken();
         }
-
-        const res = await refreshTokenRequest;
+        console.log('getAccessToken');
+        // const res = await refreshTokenRequest;
+        const res = await refreshToken();
         refreshTokenRequest = null;
-        console.log('res', res);
         dispatch(authSlice.actions.loginSucess(res.data.accessToken));
         return res.data.accessToken;
       }

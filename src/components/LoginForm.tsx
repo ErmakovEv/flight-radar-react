@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { useAppDispatch } from '../store/store';
+import { useAppDispatch } from '../hooks/redux';
 import { loginUser } from '../store/reducers/actionCreators';
 
 function LoginForm() {

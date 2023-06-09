@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+type Profile = {
+  email: string;
+  role: string;
+};
+
 export interface AuthState {
   authData: {
     accessToken: string | null;
@@ -7,7 +12,7 @@ export interface AuthState {
     error: string | null;
   };
   profileData: {
-    profile: string | null;
+    profile: Profile | null;
     isLoading: boolean;
     error: string | null;
   };
@@ -61,7 +66,7 @@ export const authSlice = createSlice({
         isLoading: true,
       },
     }),
-    loadProfileSucess: (state, action: PayloadAction<string>): AuthState => ({
+    loadProfileSucess: (state, action: PayloadAction<Profile>): AuthState => ({
       ...state,
       profileData: {
         ...state.profileData,
