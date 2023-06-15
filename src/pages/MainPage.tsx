@@ -1,3 +1,5 @@
+import Map from '../components/Map/Map';
+
 export default function MainPage() {
-  return <h1>MAP</h1>;
+  return <Map />;
 }
