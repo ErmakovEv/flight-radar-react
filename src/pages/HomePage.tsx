@@ -1,5 +1,5 @@
+import { NavLink } from 'react-router-dom';
 import { useAppSelector } from '../hooks/redux';
-import LoginForm from '../components/LoginForm';
 import Profile from '../components/Profile';
 
 function HomePage() {
@@ -10,7 +10,7 @@ function HomePage() {
   return (
     <div>
       <h1>HomePage</h1>
-      {isLoggedIn ? <Profile /> : <LoginForm />}
+      {isLoggedIn ? <Profile /> : null}
     </div>
   );
 }

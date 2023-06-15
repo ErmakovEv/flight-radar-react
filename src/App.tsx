@@ -14,6 +14,7 @@ import ErrorPage from './pages/ErrorPage';
 import RootLayout from './components/RootLayout';
 import { getProfile } from './store/reducers/actionCreators';
 import useAdmin from './hooks/useAdmin';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   const isLoggedIn = useAppSelector(
@@ -31,16 +32,13 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />} errorElement={<ErrorPage />}>
-        <Route
-          path="/"
-          element={isLoggedIn ? <Navigate to="/dashboard" /> : <HomePage />}
-        />
+        <Route path="/" element={<HomePage />} />
         <Route
           path="/dashboard"
           element={
             // eslint-disable-next-line no-nested-ternary
             !isLoggedIn ? (
-              <Navigate to="/" />
+              <Navigate to="/login" />
             ) : isAdmin ? (
               <AdminPage />
             ) : (
@@ -49,6 +47,10 @@ function App() {
           }
         />
         <Route path="/admin" element={<AdminPage />} />
+        <Route
+          path="/login"
+          element={!isLoggedIn ? <LoginPage /> : <Navigate to="/dashboard" />}
+        />
       </Route>
     )
   );

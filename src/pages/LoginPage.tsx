@@ -1,14 +1,13 @@
-import { useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { useAppSelector } from '../hooks/redux';
+import LoginForm from '../components/LoginForm';
 
-export default function LoginPage() {
-  const location = useLocation();
-
-  const fromPage = location.state?.from?.pathname || '/';
-
-  return (
-    <div>
-      <p>{fromPage}</p>
-      <h1>Login page</h1>
-    </div>
+function LoginPage() {
+  const isLoggedIn = useAppSelector(
+    (state) => !!state.auth.authData.accessToken
   );
+
+  return <LoginForm />;
 }
+
+export default LoginPage;

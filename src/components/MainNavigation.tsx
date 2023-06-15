@@ -23,11 +23,13 @@ function MainNavigation() {
           <li>
             <NavLink to="/">Home</NavLink>
           </li>
-          {isLoggedIn && (
-            <li>
+          <li>
+            {isLoggedIn ? (
               <NavLink to="/dashboard">Dashboard</NavLink>
-            </li>
-          )}
+            ) : (
+              <NavLink to="/login">Login</NavLink>
+            )}
+          </li>
         </ul>
         {isLoggedIn ? (
           <button onClick={logoutHandler} type="button">
