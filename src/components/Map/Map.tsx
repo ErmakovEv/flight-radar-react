@@ -4,6 +4,12 @@ import 'leaflet/dist/leaflet.css';
 import './Map.css';
 import { useEffect, useState } from 'react';
 import marker from './marker.png';
+import {
+  flights,
+  allAirports,
+  airport,
+  flightStatus,
+} from '../../api/proxy/requests';
 
 interface IPlainData {
   0: string | null;
@@ -35,19 +41,25 @@ function Map() {
 
   useEffect(() => {
     setInterval(async () => {
-      const res = await fetch(
-        `https://opensky-network.org/api/states/all?lamin=53.7519&lomin=22.0571&lamax=66.4454&lomax=40.4963`
-        // {
-        //   headers: {
-        //     Authorization: `Basic RXJtYWtvdjpFcm1ha292MjIwOA==`,
-        //   },
-        // }
-      );
-      const json = await res.json();
-      setCraftArr(json.states);
+      const res = await flights();
+      console.log('flights', res);
+      // const airportInfo = await airport('LED');
+      // console.log('flightStatus', airportInfo);
+      // const res = await fetch(
+      //   `https://data-live.flightradar24.com/zones/fcgi/feed.js?&faa=1&satellite=1&mlat=1&flarm=1&adsb=1&gnd=0&air=1&vehicles=1&estimated=1&maxage=14400`
+      //   // {
+      //   //   headers: {
+      //   //     Authorization: `Basic RXJtYWtvdjpFcm1ha292MjIwOA==`,
+      //   //   },
+      //   // }
+      // );
+      // const json = await res.json();
+      // console.log(json);
+      // setCraftArr(json.states);
     }, 10000);
   }, []);
 
+  console.log(craftArr);
   return (
     <MapContainer
       center={[55.981456, 37.413735]}
