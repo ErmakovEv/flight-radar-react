@@ -10,4 +10,6 @@ export interface ILoginRes {
 export interface IProfileRes {
   email: string;
   role: string;
+  mapType?: number;
+  geoPos?: string;
 }

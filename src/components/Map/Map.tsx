@@ -39,25 +39,25 @@ function Map() {
     iconSize: [38, 38],
   });
 
-  useEffect(() => {
-    setInterval(async () => {
-      const res = await flights();
-      console.log('flights', res);
-      // const airportInfo = await airport('LED');
-      // console.log('flightStatus', airportInfo);
-      // const res = await fetch(
-      //   `https://data-live.flightradar24.com/zones/fcgi/feed.js?&faa=1&satellite=1&mlat=1&flarm=1&adsb=1&gnd=0&air=1&vehicles=1&estimated=1&maxage=14400`
-      //   // {
-      //   //   headers: {
-      //   //     Authorization: `Basic RXJtYWtvdjpFcm1ha292MjIwOA==`,
-      //   //   },
-      //   // }
-      // );
-      // const json = await res.json();
-      // console.log(json);
-      // setCraftArr(json.states);
-    }, 10000);
-  }, []);
+  // useEffect(() => {
+  //   setInterval(async () => {
+  //     const res = await flights();
+  //     console.log('flights', res);
+  //     // const airportInfo = await airport('LED');
+  //     // console.log('flightStatus', airportInfo);
+  //     // const res = await fetch(
+  //     //   `https://data-live.flightradar24.com/zones/fcgi/feed.js?&faa=1&satellite=1&mlat=1&flarm=1&adsb=1&gnd=0&air=1&vehicles=1&estimated=1&maxage=14400`
+  //     //   // {
+  //     //   //   headers: {
+  //     //   //     Authorization: `Basic RXJtYWtvdjpFcm1ha292MjIwOA==`,
+  //     //   //   },
+  //     //   // }
+  //     // );
+  //     // const json = await res.json();
+  //     // console.log(json);
+  //     // setCraftArr(json.states);
+  //   }, 10000);
+  // }, []);
 
   console.log(craftArr);
   return (

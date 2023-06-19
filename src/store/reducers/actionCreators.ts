@@ -2,7 +2,7 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-console */
 import { Dispatch } from '@reduxjs/toolkit';
-import axios, { AxiosPromise } from 'axios';
+import { AxiosPromise } from 'axios';
 import {
   login,
   logout,
@@ -20,6 +20,7 @@ export const getProfile =
     try {
       dispatch(authSlice.actions.loadProfileStart);
       const res = await fetchProfile();
+      console.log('getProfile action FETCH PROFILE', res);
       dispatch(authSlice.actions.loadProfileSucess(res.data));
     } catch (e: any) {
       console.log(e);
