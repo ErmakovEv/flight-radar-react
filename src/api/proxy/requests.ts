@@ -1,9 +1,10 @@
 import { AxiosPromise } from 'axios';
 import Endpoints from '../endpoints';
 import axiosInstance from '../instanceAxios';
+import { IFlightInfo } from './types';
 
-export const flights = (): AxiosPromise<any> =>
-  axiosInstance.get(Endpoints.PROXY.FLIGHTS);
+export const flights = (bounds: number[]): AxiosPromise<IFlightInfo> =>
+  axiosInstance.get(`${Endpoints.PROXY.FLIGHTS}/${bounds.join()}`);
 
 export const allAirports = (): AxiosPromise<any> =>
   axiosInstance.get(Endpoints.PROXY.ALLAIRPORTS);

@@ -20,7 +20,6 @@ export const getProfile =
     try {
       dispatch(authSlice.actions.loadProfileStart);
       const res = await fetchProfile();
-      console.log('getProfile action FETCH PROFILE', res);
       dispatch(authSlice.actions.loadProfileSucess(res.data));
     } catch (e: any) {
       console.log(e);

@@ -1,68 +1,46 @@
+import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { Icon, divIcon, point } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
-import { useEffect, useState } from 'react';
-import marker from './marker.png';
+import { LatLngExpression } from 'leaflet';
 import {
   flights,
   allAirports,
   airport,
   flightStatus,
 } from '../../api/proxy/requests';
+import { IFlightInfoData } from '../../api/proxy/types';
+import getIcon from '../../utils/iconCreater';
+import AirportCoord from '../../utils/constants';
 
-interface IPlainData {
-  0: string | null;
-  1: string | null;
-  2: string | null;
-  3: number | null;
-  4: number | null;
-  5: number | null;
-  6: number | null;
-  7: number | null;
-  8: boolean | null;
-  9: number | null;
-  10: number | null;
-  11: number | null;
-  12: number[] | null;
-  13: number | null;
-  14: string | null;
-  15: boolean | null;
-  16: number | null;
-  17?: number | null;
-}
+type MapProps = {
+  center: number[];
+  zone: number[];
+};
 
-function Map() {
-  const [craftArr, setCraftArr] = useState<IPlainData[]>([]);
-  const customIcon = new Icon({
-    iconUrl: marker,
-    iconSize: [38, 38],
-  });
+function Map({ center, zone }: MapProps) {
+  const [aircraftArr, setAircraftArr] = useState<IFlightInfoData[]>();
 
-  // useEffect(() => {
-  //   setInterval(async () => {
-  //     const res = await flights();
-  //     console.log('flights', res);
-  //     // const airportInfo = await airport('LED');
-  //     // console.log('flightStatus', airportInfo);
-  //     // const res = await fetch(
-  //     //   `https://data-live.flightradar24.com/zones/fcgi/feed.js?&faa=1&satellite=1&mlat=1&flarm=1&adsb=1&gnd=0&air=1&vehicles=1&estimated=1&maxage=14400`
-  //     //   // {
-  //     //   //   headers: {
-  //     //   //     Authorization: `Basic RXJtYWtvdjpFcm1ha292MjIwOA==`,
-  //     //   //   },
-  //     //   // }
-  //     // );
-  //     // const json = await res.json();
-  //     // console.log(json);
-  //     // setCraftArr(json.states);
-  //   }, 10000);
-  // }, []);
+  useEffect(() => {
+    const intervalID = setInterval(async () => {
+      const res = await flights(zone);
+      const resultArrFlightInfoData: IFlightInfoData[] = [];
+      Object.entries(res.data).forEach(async ([key, value]) => {
+        if (typeof value !== 'number') {
+          value.push(key);
+          resultArrFlightInfoData.push(value);
+        }
+      });
+      setAircraftArr(resultArrFlightInfoData);
+    }, 10000);
+    return () => {
+      clearInterval(intervalID);
+    };
+  }, [zone]);
 
-  console.log(craftArr);
   return (
     <MapContainer
-      center={[55.981456, 37.413735]}
+      center={(center as LatLngExpression) || AirportCoord.ULLI.center}
       zoom={12}
       scrollWheelZoom={false}
     >
@@ -70,15 +48,19 @@ function Map() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {craftArr.map((craft) => (
-        <Marker
-          position={[craft[6] || 0, craft[5] || 0]}
-          key={craft[0]}
-          icon={customIcon}
-        >
-          <Popup>{craft[0]}</Popup>
-        </Marker>
-      ))}
+
+      {aircraftArr?.map((aircraft) => {
+        const icon = getIcon(aircraft[8], aircraft[3]);
+        return (
+          <Marker
+            position={[aircraft[1] || 0, aircraft[2] || 0]}
+            key={aircraft[19]}
+            icon={icon}
+          >
+            <Popup>{aircraft[0]}</Popup>
+          </Marker>
+        );
+      })}
     </MapContainer>
   );
 }
