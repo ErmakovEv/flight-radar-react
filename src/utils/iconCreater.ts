@@ -55,10 +55,11 @@ const getIconDataByAircraft = (
       let currentAngle = 0;
       const minAngle = Math.floor(aircraftTrack / 15) * 15;
       if (aircraftTrack > minAngle + 7) {
-        if (minAngle !== 345) currentAngle = minAngle + 15;
+        currentAngle = minAngle + 15;
       } else {
         currentAngle = minAngle;
       }
+      if (currentAngle === 360) currentAngle = 0;
       frame = iconData?.frames[0][currentAngle.toString()];
     }
   }
@@ -68,17 +69,17 @@ const getIconDataByAircraft = (
 const getIcon = (
   aircraftType: string,
   aircraftTrack: number,
-  isFocus = false
+  isSelected: boolean
 ) => {
   const frame = getIconDataByAircraft(aircraftType, aircraftTrack);
   return L.divIcon({
-    html: `<div class="aircraft-icon" style="width:${frame.w}px;height:${
-      frame.h
-    }px;background:url(${isFocus ? redSprite : yellowSprite}) -${frame.x}px -${
-      frame.y
-    }px;"></div>`,
-    iconSize: [frame.w, frame.h],
-    popupAnchor: [0, frame.h / -2],
+    html: `<div class="aircraft-icon" style="width:${
+      frame.w ? frame.w : 0
+    }px;height:${frame.h ? frame.h : 0}px;background:url(${
+      isSelected ? redSprite : yellowSprite
+    }) -${frame.x ? frame.x : 0}px -${frame.y ? frame.y : 0}px;"></div>`,
+    iconSize: [frame.w ? frame.w : 0, frame.h ? frame.h : 0],
+    popupAnchor: [0, frame.h / -2 || 0],
   });
 };
 
