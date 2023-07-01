@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   MapContainer,
   TileLayer,
@@ -21,6 +21,7 @@ import {
 import { IFlightInfoData } from '../../api/proxy/types';
 import getIcon from '../../utils/iconCreater';
 import AirportCoord from '../../utils/constants';
+import AirportsList from './AirportList';
 
 type MapProps = {
   center: number[];
@@ -47,6 +48,16 @@ interface ITrail {
   ts: number;
 }
 
+export interface IAirports {
+  alt: number;
+  country: string;
+  iata: string;
+  icao: string;
+  lat: number;
+  lon: number;
+  name: string;
+}
+
 function MyMapComponent({ callback }: MyMapComponentProps) {
   const myMap = useMapEvent('moveend', () => {
     const topLeft = myMap.getBounds().getNorthWest();
@@ -64,6 +75,8 @@ function MapLayer({ center, zone, callback }: MapProps) {
     new Map()
   );
 
+  const [airports, setAirports] = useState<IAirports[]>([]);
+
   const trailHandler = async (isSelected: boolean | undefined, id: string) => {
     if (isSelected) {
       const flightStatusInfo = await flightStatus(id);
@@ -74,6 +87,12 @@ function MapLayer({ center, zone, callback }: MapProps) {
     }
     return null;
   };
+
+  useEffect(() => {
+    allAirports()
+      .then((res) => res)
+      .then((res) => setAirports(res.data.rows));
+  }, []);
 
   useEffect(() => {
     const intervalID = setInterval(async () => {
@@ -110,8 +129,6 @@ function MapLayer({ center, zone, callback }: MapProps) {
     }
   };
 
-  console.log('RENDER');
-
   return (
     <MapContainer
       center={(center as LatLngExpression) || AirportCoord.ULLI.center}
@@ -147,6 +164,7 @@ function MapLayer({ center, zone, callback }: MapProps) {
           </div>
         );
       })}
+      <AirportsList airports={airports} />
       <MyMapComponent callback={callback} />
     </MapContainer>
   );
