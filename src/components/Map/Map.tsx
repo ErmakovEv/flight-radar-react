@@ -7,6 +7,7 @@ import {
   Tooltip,
   useMap,
   useMapEvent,
+  Polyline,
 } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
@@ -30,11 +31,21 @@ type MapProps = {
 interface IMarkerData {
   data: IFlightInfoData;
   isSelected: boolean;
+  trail: Array<Array<LatLngExpression>> | null;
 }
 
 type MyMapComponentProps = {
   callback: (coordZone: number[]) => void;
 };
+
+interface ITrail {
+  alt: number;
+  hd: number;
+  lat: number;
+  lng: number;
+  spd: number;
+  ts: number;
+}
 
 function MyMapComponent({ callback }: MyMapComponentProps) {
   const myMap = useMapEvent('moveend', () => {
@@ -53,34 +64,42 @@ function MapLayer({ center, zone, callback }: MapProps) {
     new Map()
   );
 
+  const trailHandler = async (isSelected: boolean | undefined, id: string) => {
+    if (isSelected) {
+      const flightStatusInfo = await flightStatus(id);
+      return flightStatusInfo.data.trail.map((obj: ITrail) => [
+        obj.lat,
+        obj.lng,
+      ]);
+    }
+    return null;
+  };
+
   useEffect(() => {
     const intervalID = setInterval(async () => {
       const res = await flights(zone);
       const resultArrFlightInfoData: Map<string, IMarkerData> = new Map();
-      Object.entries(res.data).forEach(async ([key, value]) => {
+      const promises = Object.entries(res.data).map(async ([key, value]) => {
         const lastDataAircraft = aircraftArr.get(key);
         if (typeof value !== 'number') {
-          if (lastDataAircraft) {
-            resultArrFlightInfoData.set(key, {
-              data: value,
-              isSelected: lastDataAircraft.isSelected,
-            });
-          } else {
-            resultArrFlightInfoData.set(key, {
-              data: value,
-              isSelected: false,
-            });
-          }
+          const trail = await trailHandler(lastDataAircraft?.isSelected, key);
+          const newObj: IMarkerData = {
+            data: value,
+            isSelected: lastDataAircraft?.isSelected || false,
+            trail,
+          };
+          resultArrFlightInfoData.set(key, newObj);
         }
       });
+      await Promise.all(promises);
       setAircraftArr(resultArrFlightInfoData);
-    }, 10000);
+    }, 5000);
     return () => {
       clearInterval(intervalID);
     };
   }, [aircraftArr, zone]);
 
-  const markerSelectHandler = (id: string) => {
+  const markerSelectHandler = async (id: string) => {
     const aircraft = aircraftArr.get(id);
     if (aircraft) {
       aircraft.isSelected = !aircraft.isSelected;
@@ -90,6 +109,8 @@ function MapLayer({ center, zone, callback }: MapProps) {
       setAircraftArr(newArr);
     }
   };
+
+  console.log('RENDER');
 
   return (
     <MapContainer
@@ -108,18 +129,22 @@ function MapLayer({ center, zone, callback }: MapProps) {
           aircraft[1].isSelected
         );
         return (
-          <Marker
-            position={[aircraft[1].data[1] || 0, aircraft[1].data[2] || 0]}
-            key={aircraft[0]}
-            eventHandlers={{
-              click: () => {
-                markerSelectHandler(aircraft[0]);
-              },
-            }}
-            icon={icon}
-          >
-            <Tooltip>{aircraft[1].data[0]}</Tooltip>
-          </Marker>
+          <div key={aircraft[0]}>
+            <Marker
+              position={[aircraft[1].data[1] || 0, aircraft[1].data[2] || 0]}
+              eventHandlers={{
+                click: () => {
+                  markerSelectHandler(aircraft[0]);
+                },
+              }}
+              icon={icon}
+            >
+              <Tooltip>{aircraft[1].data[0]}</Tooltip>
+            </Marker>
+            {aircraft[1].trail ? (
+              <Polyline positions={aircraft[1].trail} />
+            ) : null}
+          </div>
         );
       })}
       <MyMapComponent callback={callback} />
@@ -128,3 +153,79 @@ function MapLayer({ center, zone, callback }: MapProps) {
 }
 
 export default MapLayer;
+
+/*
+const trailHandlerPromise = (isSelected, id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const flightStatusInfo = await flightStatus(id);
+      if (isSelected) {
+        const trail = flightStatusInfo.data.trail.map((obj) => [obj.lat, obj.lng]);
+        resolve(trail);
+      } else {
+        resolve(null);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+const handlerPromise = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await flights(zone);
+      const resultArrFlightInfoData = new Map();
+
+      const promises = Object.entries(res.data).map(([key, value]) => {
+        const lastDataAircraft = aircraftArr.get(key);
+        if (typeof value !== 'number') {
+          return trailHandlerPromise(lastDataAircraft?.isSelected, key)
+            .then((trail) => {
+              const newObj = {
+                data: value,
+                isSelected: lastDataAircraft?.isSelected || false,
+                trail,
+              };
+              resultArrFlightInfoData.set(key, newObj);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        }
+      });
+
+      Promise.all(promises)
+        .then(() => {
+          resolve(resultArrFlightInfoData);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// Использование
+handlerPromise()
+  .then((data) => {
+    // Обработка данных
+  })
+  .catch((error) => {
+    // Обработка ошибок
+  });
+
+В этом примере мы создаем новый промис с использованием конструктора Promise и используем асинхронные операции, такие как await, внутри функций обратного вызова промиса.
+
+Метод trailHandlerPromise возвращает новый промис, который разрешается с массивом trail в случае, если isSelected истинно, или с null, если isSelected ложно.
+
+Метод handlerPromise также возвращает новый промис. Внутри этого промиса мы выполняем асинхронные операции и используем Promise.all для ожидания разрешения всех промисов, возвращенных методом trailHandlerPromise. Затем мы разрешаем главный промис с объектом resultArrFlightInfoData, содержащим информацию о полетах.
+
+Внешний код может использовать этот промис, вызывая метод .then для обработки успешного разрешения или .catch для обработки ошибок.
+
+Хотя этот пример с промисами достигает той же функциональности, что и предыдущий пример с async/await, код становится более громоздким и сложным для чтения. async/await обеспечивает более простой и понятный син
+
+
+*/
