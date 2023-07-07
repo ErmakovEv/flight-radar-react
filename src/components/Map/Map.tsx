@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   MapContainer,
   TileLayer,
@@ -9,9 +9,10 @@ import {
   useMapEvent,
   Polyline,
 } from 'react-leaflet';
+import { Card, CardContent, Typography } from '@mui/material';
+import L, { LatLngExpression, LatLngBounds } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
-import { LatLngExpression, LatLngBounds } from 'leaflet';
 import {
   flights,
   allAirports,
@@ -21,12 +22,38 @@ import {
 import { IFlightInfoData } from '../../api/proxy/types';
 import getIcon from '../../utils/iconCreater';
 import AirportCoord from '../../utils/constants';
-import AirportsList from './AirportList';
+import AirportsList from '../AirportList/AirportList';
 
-type MapProps = {
+interface IAircraftModel {
+  code: string;
+  text: string;
+}
+
+interface IAircraftImages {
+  large: { src: string; link: string; copyright: string; source: string };
+  medium: { src: string; link: string; copyright: string; source: string };
+  thumbnails: { src: string; link: string; copyright: string; source: string };
+}
+
+interface IArcraftFlightInfo {
+  age: number | null;
+  countryId: number;
+  hex: string;
+  images: IAircraftImages;
+  model: IAircraftModel;
+  msn: null;
+  registration: string;
+}
+
+export interface IFflightStatus {
+  aicraft: IArcraftFlightInfo;
+}
+
+type MapLayerProps = {
   center: number[];
   zone: number[];
   callback: (coordZone: number[]) => void;
+  callback2: (id: string, flightStatusInfo: IFflightStatus) => void;
 };
 
 interface IMarkerData {
@@ -70,7 +97,7 @@ function MyMapComponent({ callback }: MyMapComponentProps) {
   return null;
 }
 
-function MapLayer({ center, zone, callback }: MapProps) {
+function MapLayer({ center, zone, callback, callback2 }: MapLayerProps) {
   const [aircraftArr, setAircraftArr] = useState<Map<string, IMarkerData>>(
     new Map()
   );
@@ -80,6 +107,8 @@ function MapLayer({ center, zone, callback }: MapProps) {
   const trailHandler = async (isSelected: boolean | undefined, id: string) => {
     if (isSelected) {
       const flightStatusInfo = await flightStatus(id);
+      console.log(flightStatusInfo);
+      callback2(id, flightStatusInfo.data.aircraft);
       return flightStatusInfo.data.trail.map((obj: ITrail) => [
         obj.lat,
         obj.lng,
@@ -165,6 +194,7 @@ function MapLayer({ center, zone, callback }: MapProps) {
         );
       })}
       <AirportsList airports={airports} />
+
       <MyMapComponent callback={callback} />
     </MapContainer>
   );
