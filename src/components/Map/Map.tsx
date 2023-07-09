@@ -3,14 +3,11 @@ import {
   MapContainer,
   TileLayer,
   Marker,
-  Popup,
   Tooltip,
-  useMap,
   useMapEvent,
   Polyline,
 } from 'react-leaflet';
-import { Card, CardContent, Typography } from '@mui/material';
-import L, { LatLngExpression, LatLngBounds } from 'leaflet';
+import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
 import {
@@ -19,71 +16,21 @@ import {
   airport,
   flightStatus,
 } from '../../api/proxy/requests';
-import { IFlightInfoData } from '../../api/proxy/types';
+
 import getIcon from '../../utils/iconCreater';
 import AirportCoord from '../../utils/constants';
 import AirportsList from '../AirportList/AirportList';
 
-interface IAircraftModel {
-  code: string;
-  text: string;
-}
+import {
+  MyMapComponentProps,
+  IAirports,
+  MapLayerProps,
+  IMarkerData,
+  IFflightStatus,
+  ITrail,
+} from './Map.type';
 
-interface IAircraftImages {
-  large: { src: string; link: string; copyright: string; source: string };
-  medium: { src: string; link: string; copyright: string; source: string };
-  thumbnails: { src: string; link: string; copyright: string; source: string };
-}
-
-interface IArcraftFlightInfo {
-  age: number | null;
-  countryId: number;
-  hex: string;
-  images: IAircraftImages;
-  model: IAircraftModel;
-  msn: null;
-  registration: string;
-}
-
-export interface IFflightStatus {
-  aicraft: IArcraftFlightInfo;
-}
-
-type MapLayerProps = {
-  center: number[];
-  zone: number[];
-  callback: (coordZone: number[]) => void;
-  callback2: (id: string, flightStatusInfo: IFflightStatus) => void;
-};
-
-interface IMarkerData {
-  data: IFlightInfoData;
-  isSelected: boolean;
-  trail: Array<Array<LatLngExpression>> | null;
-}
-
-type MyMapComponentProps = {
-  callback: (coordZone: number[]) => void;
-};
-
-interface ITrail {
-  alt: number;
-  hd: number;
-  lat: number;
-  lng: number;
-  spd: number;
-  ts: number;
-}
-
-export interface IAirports {
-  alt: number;
-  country: string;
-  iata: string;
-  icao: string;
-  lat: number;
-  lon: number;
-  name: string;
-}
+import { IFlightInfoData } from '../../api/proxy/types';
 
 function MyMapComponent({ callback }: MyMapComponentProps) {
   const myMap = useMapEvent('moveend', () => {
@@ -97,18 +44,40 @@ function MyMapComponent({ callback }: MyMapComponentProps) {
   return null;
 }
 
-function MapLayer({ center, zone, callback, callback2 }: MapLayerProps) {
+function MapLayer({
+  center,
+  zone,
+  callback,
+  callback2,
+  callback3,
+}: MapLayerProps) {
   const [aircraftArr, setAircraftArr] = useState<Map<string, IMarkerData>>(
     new Map()
   );
 
   const [airports, setAirports] = useState<IAirports[]>([]);
 
-  const trailHandler = async (isSelected: boolean | undefined, id: string) => {
+  const trailHandler = async (
+    isSelected: boolean | undefined,
+    id: string,
+    resultSelectedFlightsArr: IFflightStatus[],
+    dataFlight: IFlightInfoData
+  ) => {
     if (isSelected) {
       const flightStatusInfo = await flightStatus(id);
-      console.log(flightStatusInfo);
-      callback2(id, flightStatusInfo.data.aircraft);
+      resultSelectedFlightsArr.push({
+        id,
+        aicraft: flightStatusInfo.data.aircraft,
+        airlane: flightStatusInfo.data.airline,
+        airport: flightStatusInfo.data.airport,
+        airspace: flightStatusInfo.data.airspace,
+        availability: flightStatusInfo.data.availability,
+        ems: flightStatusInfo.data.ems,
+        firstTimestamp: flightStatusInfo.data.firstTimestamp,
+        identification: flightStatusInfo.data.identification,
+        time: flightStatusInfo.data.time,
+        dataFlight,
+      });
       return flightStatusInfo.data.trail.map((obj: ITrail) => [
         obj.lat,
         obj.lng,
@@ -117,20 +86,26 @@ function MapLayer({ center, zone, callback, callback2 }: MapLayerProps) {
     return null;
   };
 
-  useEffect(() => {
-    allAirports()
-      .then((res) => res)
-      .then((res) => setAirports(res.data.rows));
-  }, []);
+  // useEffect(() => {
+  //   allAirports()
+  //     .then((res) => res)
+  //     .then((res) => setAirports(res.data.rows));
+  // }, []);
 
   useEffect(() => {
     const intervalID = setInterval(async () => {
       const res = await flights(zone);
+      const resultSelectedFlightsArr: IFflightStatus[] = [];
       const resultArrFlightInfoData: Map<string, IMarkerData> = new Map();
       const promises = Object.entries(res.data).map(async ([key, value]) => {
         const lastDataAircraft = aircraftArr.get(key);
         if (typeof value !== 'number') {
-          const trail = await trailHandler(lastDataAircraft?.isSelected, key);
+          const trail = await trailHandler(
+            lastDataAircraft?.isSelected,
+            key,
+            resultSelectedFlightsArr,
+            value
+          );
           const newObj: IMarkerData = {
             data: value,
             isSelected: lastDataAircraft?.isSelected || false,
@@ -140,6 +115,7 @@ function MapLayer({ center, zone, callback, callback2 }: MapLayerProps) {
         }
       });
       await Promise.all(promises);
+      callback2(resultSelectedFlightsArr);
       setAircraftArr(resultArrFlightInfoData);
     }, 5000);
     return () => {
@@ -150,6 +126,7 @@ function MapLayer({ center, zone, callback, callback2 }: MapLayerProps) {
   const markerSelectHandler = async (id: string) => {
     const aircraft = aircraftArr.get(id);
     if (aircraft) {
+      if (aircraft.isSelected === false) callback3(id);
       aircraft.isSelected = !aircraft.isSelected;
       aircraftArr.delete(id);
       const newArr = new Map([...aircraftArr]);

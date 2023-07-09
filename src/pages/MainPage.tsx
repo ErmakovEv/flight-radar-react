@@ -1,36 +1,11 @@
-import { createContext, useCallback, useContext, useState } from 'react';
-import { LatLngBounds } from 'leaflet';
-import { Card, CardContent, Typography, Box } from '@mui/material';
-// eslint-disable-next-line import/no-cycle
+import { useState } from 'react';
+import { Drawer, Box, Paper } from '@mui/material';
 import MapLayer from '../components/Map/Map';
+import BottomMenu from '../components/BottomMenu/BottomMenu';
 import { useAppSelector } from '../hooks/redux';
 import AirportCoord from '../utils/constants';
-import FlightInfoPanelList from '../components/FlightInfoPanelList/FlightInfoPanelList';
-
-interface IAircraftImages {
-  large: { src: string; link: string; copyright: string; source: string };
-  medium: { src: string; link: string; copyright: string; source: string };
-  thumbnails: { src: string; link: string; copyright: string; source: string };
-}
-
-interface IAircraftModel {
-  code: string;
-  text: string;
-}
-
-interface IArcraftFlightInfo {
-  age: number | null;
-  countryId: number;
-  hex: string;
-  images: IAircraftImages;
-  model: IAircraftModel;
-  msn: null;
-  registration: string;
-}
-
-export interface IFflightStatus {
-  aicraft: IArcraftFlightInfo;
-}
+import FlightInfoPanel from '../components/FlightInfoPanel/FlightInfoPanel';
+import { IFflightStatus } from '../components/Map/Map.type';
 
 export default function MainPage() {
   const userProfile = useAppSelector((state) => state.auth.profileData.profile);
@@ -39,32 +14,85 @@ export default function MainPage() {
 
   const [zone, setZone] = useState(AirportCoord[airportIcao].zone);
 
-  const [flightsStatusMap, setFlightStatusMap] = useState<
-    Map<string, IFflightStatus>
-  >(new Map());
+  const [viewInPanel, setViewInPanel] = useState<string>('');
+
+  const [flightStatusObjArray, setFlightStatusObjArray] = useState<
+    IFflightStatus[]
+  >([]);
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const handler = (coordZone: number[]) => {
     setZone(coordZone);
   };
 
-  const flightsStatusMapHandler = (
-    id: string,
-    flightStatusInfo: IFflightStatus
-  ) => {
-    const newFlightsInfoMap = new Map([...flightsStatusMap]);
-    newFlightsInfoMap.set(id, flightStatusInfo);
-    setFlightStatusMap(newFlightsInfoMap);
-  };
+  const displaedInPanelInfo = flightStatusObjArray.find(
+    (obj) => obj.id === viewInPanel
+  );
 
   return (
     <>
-      {/* <MapLayer
+      <MapLayer
         center={AirportCoord[airportIcao].center}
         zone={zone}
         callback={handler}
-        callback2={flightsStatusMapHandler}
-      /> */}
-      <FlightInfoPanelList flightsStatusMap={flightsStatusMap} />
+        callback2={(flightStatusInfoArr: IFflightStatus[]) =>
+          setFlightStatusObjArray(flightStatusInfoArr)
+        }
+        callback3={(id: string) => setViewInPanel(id)}
+      />
+      {displaedInPanelInfo ? (
+        <FlightInfoPanel flightStatusObj={displaedInPanelInfo} />
+      ) : null}
+      <BottomMenu callback={(isOpen) => setIsDrawerOpen(isOpen)} />
+      <Drawer
+        anchor="right"
+        open={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+      >
+        <Box
+          width="250px"
+          height="100vh"
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            backgroundColor: 'var(--sec-bg-color)',
+          }}
+        >
+          {flightStatusObjArray.map((obj) => (
+            <Paper
+              key={obj.dataFlight[0]}
+              sx={{
+                backgroundColor: 'var(--main-bg-color)',
+                color: 'var(--main-text-color)',
+                fontFamily: 'Roboto',
+                width: '90%',
+                margin: '10px',
+                padding: '5px',
+              }}
+              onClick={() => setViewInPanel(obj.id)}
+            >
+              <div className="panel-header">
+                <div className="panel-header__first-level">
+                  <span className="call-sign">
+                    {obj.identification.callsign}
+                  </span>
+                  <span className="flight-number">
+                    {obj.identification.number.default}
+                  </span>
+                  <span className="aircraft-icao">
+                    {obj.aicraft.model.code}
+                  </span>
+                </div>
+                <div className="panel-header__second-level">
+                  <span className="aviacompany">{obj.airlane.name}</span>
+                </div>
+              </div>
+            </Paper>
+          ))}
+        </Box>
+      </Drawer>
     </>
   );
 }
