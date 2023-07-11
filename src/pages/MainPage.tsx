@@ -6,6 +6,7 @@ import { useAppSelector } from '../hooks/redux';
 import AirportCoord from '../utils/constants';
 import FlightInfoPanel from '../components/FlightInfoPanel/FlightInfoPanel';
 import { IFflightStatus } from '../components/Map/Map.type';
+import CustomZoom from '../components/CustomZoom/CustomZoom';
 
 export default function MainPage() {
   const userProfile = useAppSelector((state) => state.auth.profileData.profile);

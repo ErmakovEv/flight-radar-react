@@ -1,0 +1,12 @@
+.custom-zoom-container {
+  position: fixed;
+  z-index: 1000;
+  bottom: 5%;
+  right: 5%;
+  background-color: red;
+}
+
+.SpeedDial {
+  color: var(--icao-bg-color) !important;
+  background-color: var(--main-bg-color) !important;
+}

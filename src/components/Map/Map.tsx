@@ -5,17 +5,21 @@ import {
   Marker,
   Tooltip,
   useMapEvent,
+  useMap,
   Polyline,
 } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
+
 import {
   flights,
   allAirports,
   airport,
   flightStatus,
 } from '../../api/proxy/requests';
+
+import CustomZoom from '../CustomZoom/CustomZoom';
 
 import getIcon from '../../utils/iconCreater';
 import AirportCoord from '../../utils/constants';
@@ -35,9 +39,7 @@ import { IFlightInfoData } from '../../api/proxy/types';
 function MyMapComponent({ callback }: MyMapComponentProps) {
   const myMap = useMapEvent('moveend', () => {
     const topLeft = myMap.getBounds().getNorthWest();
-
     const bottomRight = myMap.getBounds().getSouthEast();
-
     callback([topLeft.lat, bottomRight.lat, topLeft.lng, bottomRight.lng]);
   });
 
@@ -54,8 +56,6 @@ function MapLayer({
   const [aircraftArr, setAircraftArr] = useState<Map<string, IMarkerData>>(
     new Map()
   );
-
-  const [airports, setAirports] = useState<IAirports[]>([]);
 
   const trailHandler = async (
     isSelected: boolean | undefined,
@@ -85,12 +85,6 @@ function MapLayer({
     }
     return null;
   };
-
-  // useEffect(() => {
-  //   allAirports()
-  //     .then((res) => res)
-  //     .then((res) => setAirports(res.data.rows));
-  // }, []);
 
   useEffect(() => {
     const intervalID = setInterval(async () => {
@@ -140,6 +134,7 @@ function MapLayer({
       center={(center as LatLngExpression) || AirportCoord.ULLI.center}
       zoom={12}
       scrollWheelZoom={false}
+      zoomControl={false}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -170,9 +165,10 @@ function MapLayer({
           </div>
         );
       })}
-      <AirportsList airports={airports} />
+      <AirportsList />
 
       <MyMapComponent callback={callback} />
+      <CustomZoom home={center} />
     </MapContainer>
   );
 }

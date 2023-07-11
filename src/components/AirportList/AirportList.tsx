@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import { useAppSelector } from '../../hooks/redux';
 import blueLocation from '../../img/blue-location.png';
 import redLocation from '../../img/red-location.png';
+import { allAirports } from '../../api/proxy/requests';
 
 export interface IAirports {
   alt: number;
@@ -16,12 +17,16 @@ export interface IAirports {
   name: string;
 }
 
-type AirportProps = {
-  airports: IAirports[];
-};
-
-const AirportsList = memo(function AirportsList({ airports }: AirportProps) {
+const AirportsList = memo(function AirportsList() {
   const userProfile = useAppSelector((state) => state.auth.profileData.profile);
+
+  const [airports, setAirports] = useState<IAirports[]>([]);
+
+  useEffect(() => {
+    allAirports()
+      .then((res) => res)
+      .then((res) => setAirports(res.data.rows));
+  }, []);
 
   return airports.map((airportMarker) => {
     const airportIcon = new Icon({
