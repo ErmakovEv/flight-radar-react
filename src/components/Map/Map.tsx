@@ -12,12 +12,7 @@ import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
 
-import {
-  flights,
-  allAirports,
-  airport,
-  flightStatus,
-} from '../../api/proxy/requests';
+import { flights, flightStatus } from '../../api/proxy/requests';
 
 import CustomZoom from '../CustomZoom/CustomZoom';
 
@@ -27,7 +22,6 @@ import AirportsList from '../AirportList/AirportList';
 
 import {
   MyMapComponentProps,
-  IAirports,
   MapLayerProps,
   IMarkerData,
   IFflightStatus,

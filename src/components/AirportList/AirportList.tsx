@@ -1,11 +1,12 @@
-/* eslint-disable react/prop-types */
 import { memo, useState, useEffect } from 'react';
-import { Marker, Tooltip } from 'react-leaflet';
+import { Marker, Tooltip, Popup } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import { useAppSelector } from '../../hooks/redux';
 import blueLocation from '../../img/blue-location.png';
 import redLocation from '../../img/red-location.png';
-import { allAirports } from '../../api/proxy/requests';
+import { allAirports, airport } from '../../api/proxy/requests';
+import './AirportList.css';
+import AirportPopup from '../AirportPopup/AirportPopup';
 
 export interface IAirports {
   alt: number;
@@ -42,6 +43,9 @@ const AirportsList = memo(function AirportsList() {
         icon={airportIcon}
       >
         <Tooltip>{airportMarker.name}</Tooltip>
+        <Popup minWidth={200} className="test">
+          <AirportPopup airportCode={airportMarker.iata} />
+        </Popup>
       </Marker>
     );
   });
