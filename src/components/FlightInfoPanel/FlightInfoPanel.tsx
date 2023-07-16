@@ -93,7 +93,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                 {flightStatusObj.identification.number.default}
               </span>
               <span className="aircraft-icao">
-                {flightStatusObj.aicraft.model.code}
+                {flightStatusObj.aicraft.model.code || 0}
               </span>
             </div>
             <div className="panel-header__second-level">
@@ -124,7 +124,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
               <Grid container>
                 <Grid item xs>
                   <div className="airport-icao">
-                    {flightStatusObj.airport.origin.code.iata}
+                    {flightStatusObj.airport.origin.code.iata || 0}
                   </div>
                   <div className="airport-city">
                     {flightStatusObj.airport.origin.position.region.city}
@@ -147,7 +147,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                 </Divider>
                 <Grid item xs>
                   <div className="airport-icao">
-                    {flightStatusObj.airport.destination.code.iata}
+                    {flightStatusObj.airport.destination.code.iata || 0}
                   </div>
                   <div className="airport-city">
                     {flightStatusObj.airport.destination.position.region.city}

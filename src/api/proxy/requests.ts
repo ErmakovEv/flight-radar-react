@@ -16,3 +16,7 @@ export const airport = (airportCode: string): AxiosPromise<any> => {
 export const flightStatus = (flightId: string): AxiosPromise<any> => {
   return axiosInstance.get(`${Endpoints.PROXY.FLIGHTSTATUS}/${flightId}`);
 };
+
+export const shedule = (airportCode: string): AxiosPromise<any> => {
+  return axiosInstance.get(`${Endpoints.PROXY.SHEDULE}/${airportCode}`);
+};

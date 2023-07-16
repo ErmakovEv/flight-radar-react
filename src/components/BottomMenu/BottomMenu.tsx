@@ -1,12 +1,14 @@
 import { Paper, MenuList, MenuItem, ListItemIcon } from '@mui/material';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import './BottomMenu.css';
 
 type BottomMenuProps = {
-  callback: (isOpen: boolean) => void;
+  openerDarwer: (isOpen: boolean) => void;
+  openerModal: () => void;
 };
 
-function BottomMenu({ callback }: BottomMenuProps) {
+function BottomMenu({ openerDarwer, openerModal }: BottomMenuProps) {
   return (
     <Paper
       sx={{
@@ -17,12 +19,32 @@ function BottomMenu({ callback }: BottomMenuProps) {
       }}
       className="menu"
     >
-      <MenuList>
-        <MenuItem onClick={() => callback(true)}>
+      <MenuList
+        sx={{
+          display: 'flex',
+        }}
+      >
+        <MenuItem onClick={() => openerDarwer(true)}>
+          <ListItemIcon>
+            <ManageSearchIcon
+              fontSize="small"
+              sx={{
+                color: 'var(--icao-bg-color)',
+                margin: '0 auto',
+                padding: 0,
+              }}
+            />
+          </ListItemIcon>
+        </MenuItem>
+        <MenuItem onClick={() => openerModal()}>
           <ListItemIcon>
             <ViewListIcon
               fontSize="small"
-              sx={{ color: 'var(--icao-bg-color)' }}
+              sx={{
+                color: 'var(--icao-bg-color)',
+                margin: '0 auto',
+                padding: 0,
+              }}
             />
           </ListItemIcon>
         </MenuItem>

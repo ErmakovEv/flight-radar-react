@@ -148,7 +148,7 @@ export interface IAirports {
 export type MapLayerProps = {
   center: number[];
   zone: number[];
-  callback: (coordZone: number[]) => void;
-  callback2: (flightStatusInfoArr: IFflightStatus[]) => void;
-  callback3: (id: string) => void;
+  getZoneCoord: (coordZone: number[]) => void;
+  getSelectedFlights: (flightStatusInfoArr: IFflightStatus[]) => void;
+  panelViewHandler: (id: string) => void;
 };

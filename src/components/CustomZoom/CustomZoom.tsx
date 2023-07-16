@@ -18,15 +18,29 @@ function CustomZoom({ home }: { home: number[] }) {
           onClick={() => {
             map.setView(home as LatLngExpression);
           }}
+          sx={{ color: 'var(--icao-bg-color)' }}
         />
       ),
       name: 'Home',
     },
     {
-      icon: <RemoveCircleIcon onClick={() => map.zoomOut()} />,
+      icon: (
+        <RemoveCircleIcon
+          sx={{ color: 'var(--icao-bg-color)' }}
+          onClick={() => map.zoomOut()}
+        />
+      ),
       name: 'Zoom Out',
     },
-    { icon: <AddCircleIcon onClick={() => map.zoomIn()} />, name: 'Zoom In' },
+    {
+      icon: (
+        <AddCircleIcon
+          sx={{ color: 'var(--icao-bg-color)' }}
+          onClick={() => map.zoomIn()}
+        />
+      ),
+      name: 'Zoom In',
+    },
   ];
 
   return (
@@ -50,6 +64,7 @@ function CustomZoom({ home }: { home: number[] }) {
         >
           {actions.map((action) => (
             <SpeedDialAction
+              sx={{ backgroundColor: 'var(--main-bg-color)' }}
               key={action.name}
               icon={action.icon}
               tooltipTitle={action.name}

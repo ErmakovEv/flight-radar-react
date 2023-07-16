@@ -10,6 +10,7 @@ const Endpoints = {
     ALLAIRPORTS: 'http://127.0.0.1:3000/api/proxy/all-airports',
     AIRPORT: 'http://127.0.0.1:3000/api/proxy/airport',
     FLIGHTSTATUS: 'http://127.0.0.1:3000/api/proxy/flight-status',
+    SHEDULE: 'http://127.0.0.1:3000/api/proxy/shedule',
   },
 };
 

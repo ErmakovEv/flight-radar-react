@@ -43,7 +43,7 @@ const AirportsList = memo(function AirportsList() {
         icon={airportIcon}
       >
         <Tooltip>{airportMarker.name}</Tooltip>
-        <Popup minWidth={200} className="test">
+        <Popup minWidth={250} className="test">
           <AirportPopup airportCode={airportMarker.iata} />
         </Popup>
       </Marker>

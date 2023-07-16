@@ -6,7 +6,7 @@ import { useAppSelector } from '../hooks/redux';
 import AirportCoord from '../utils/constants';
 import FlightInfoPanel from '../components/FlightInfoPanel/FlightInfoPanel';
 import { IFflightStatus } from '../components/Map/Map.type';
-import CustomZoom from '../components/CustomZoom/CustomZoom';
+import SheduleModal from '../components/SheduleModal/SheduleModal';
 
 export default function MainPage() {
   const userProfile = useAppSelector((state) => state.auth.profileData.profile);
@@ -23,7 +23,9 @@ export default function MainPage() {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  const handler = (coordZone: number[]) => {
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const handlerZone = (coordZone: number[]) => {
     setZone(coordZone);
   };
 
@@ -36,16 +38,19 @@ export default function MainPage() {
       <MapLayer
         center={AirportCoord[airportIcao].center}
         zone={zone}
-        callback={handler}
-        callback2={(flightStatusInfoArr: IFflightStatus[]) =>
+        getZoneCoord={handlerZone}
+        getSelectedFlights={(flightStatusInfoArr: IFflightStatus[]) =>
           setFlightStatusObjArray(flightStatusInfoArr)
         }
-        callback3={(id: string) => setViewInPanel(id)}
+        panelViewHandler={(id: string) => setViewInPanel(id)}
       />
       {displaedInPanelInfo ? (
         <FlightInfoPanel flightStatusObj={displaedInPanelInfo} />
       ) : null}
-      <BottomMenu callback={(isOpen) => setIsDrawerOpen(isOpen)} />
+      <BottomMenu
+        openerDarwer={(isOpen) => setIsDrawerOpen(isOpen)}
+        openerModal={() => setOpenModal(true)}
+      />
       <Drawer
         anchor="right"
         open={isDrawerOpen}
@@ -94,6 +99,13 @@ export default function MainPage() {
           ))}
         </Box>
       </Drawer>
+      {userProfile?.geoPos ? (
+        <SheduleModal
+          closeCB={() => setOpenModal(false)}
+          openCB={() => setOpenModal(true)}
+          isOpen={openModal}
+        />
+      ) : null}
     </>
   );
 }

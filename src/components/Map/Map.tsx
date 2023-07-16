@@ -43,9 +43,9 @@ function MyMapComponent({ callback }: MyMapComponentProps) {
 function MapLayer({
   center,
   zone,
-  callback,
-  callback2,
-  callback3,
+  getZoneCoord,
+  getSelectedFlights,
+  panelViewHandler,
 }: MapLayerProps) {
   const [aircraftArr, setAircraftArr] = useState<Map<string, IMarkerData>>(
     new Map()
@@ -103,7 +103,7 @@ function MapLayer({
         }
       });
       await Promise.all(promises);
-      callback2(resultSelectedFlightsArr);
+      getSelectedFlights(resultSelectedFlightsArr);
       setAircraftArr(resultArrFlightInfoData);
     }, 5000);
     return () => {
@@ -114,7 +114,9 @@ function MapLayer({
   const markerSelectHandler = async (id: string) => {
     const aircraft = aircraftArr.get(id);
     if (aircraft) {
-      if (aircraft.isSelected === false) callback3(id);
+      if (aircraft.isSelected === false) {
+        panelViewHandler(id);
+      }
       aircraft.isSelected = !aircraft.isSelected;
       aircraftArr.delete(id);
       const newArr = new Map([...aircraftArr]);
@@ -161,7 +163,7 @@ function MapLayer({
       })}
       <AirportsList />
 
-      <MyMapComponent callback={callback} />
+      <MyMapComponent callback={getZoneCoord} />
       <CustomZoom home={center} />
     </MapContainer>
   );
