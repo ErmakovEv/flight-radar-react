@@ -13,6 +13,8 @@ export default function MainPage() {
   const airportIcao =
     (userProfile?.geoPos as keyof typeof AirportCoord) || 'ULLI';
 
+  const [center, setCenter] = useState<number[]>();
+
   const [zone, setZone] = useState(AirportCoord[airportIcao].zone);
 
   const [viewInPanel, setViewInPanel] = useState<string>('');

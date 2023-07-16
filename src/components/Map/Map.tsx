@@ -1,24 +1,13 @@
 import { useEffect, useState } from 'react';
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Tooltip,
-  useMapEvent,
-  useMap,
-  Polyline,
-} from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvent } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
-
 import { flights, flightStatus } from '../../api/proxy/requests';
-
 import CustomZoom from '../CustomZoom/CustomZoom';
-
 import getIcon from '../../utils/iconCreater';
-import AirportCoord from '../../utils/constants';
 import AirportsList from '../AirportList/AirportList';
+import FlightMarker from '../FlightMarker/FlightMarker';
 
 import {
   MyMapComponentProps,
@@ -113,6 +102,7 @@ function MapLayer({
 
   const markerSelectHandler = async (id: string) => {
     const aircraft = aircraftArr.get(id);
+    console.log(aircraft);
     if (aircraft) {
       if (aircraft.isSelected === false) {
         panelViewHandler(id);
@@ -124,10 +114,9 @@ function MapLayer({
       setAircraftArr(newArr);
     }
   };
-
   return (
     <MapContainer
-      center={(center as LatLngExpression) || AirportCoord.ULLI.center}
+      center={center as LatLngExpression}
       zoom={12}
       scrollWheelZoom={false}
       zoomControl={false}
@@ -143,22 +132,12 @@ function MapLayer({
           aircraft[1].isSelected
         );
         return (
-          <div key={aircraft[0]}>
-            <Marker
-              position={[aircraft[1].data[1] || 0, aircraft[1].data[2] || 0]}
-              eventHandlers={{
-                click: () => {
-                  markerSelectHandler(aircraft[0]);
-                },
-              }}
-              icon={icon}
-            >
-              <Tooltip>{aircraft[1].data[0]}</Tooltip>
-            </Marker>
-            {aircraft[1].trail ? (
-              <Polyline positions={aircraft[1].trail} />
-            ) : null}
-          </div>
+          <FlightMarker
+            aircraft={aircraft}
+            handler={markerSelectHandler}
+            icon={icon}
+            key={aircraft[0]}
+          />
         );
       })}
       <AirportsList />
