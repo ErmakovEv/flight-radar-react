@@ -34,7 +34,6 @@ function SheduleModal({ openCB, closeCB, isOpen }: SheduleModalProps) {
   const requestsHandler = async () => {
     if (userProfile?.geoPos) {
       const req = await shedule(userProfile?.geoPos);
-      console.log(req.data.result.response.airport.pluginData.schedule);
       setArrivalArr(
         req.data.result.response.airport.pluginData.schedule.arrivals.data
       );

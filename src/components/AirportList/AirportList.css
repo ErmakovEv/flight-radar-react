@@ -1,6 +1,6 @@
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  background-color: var(--main-bg-color);
+  background-color: var(--main-bg-color) !important;
 }
 
 .panel-airport {

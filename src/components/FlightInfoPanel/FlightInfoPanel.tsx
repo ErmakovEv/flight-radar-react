@@ -58,8 +58,6 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
     return 0;
   };
 
-  console.log(flightStatusObj);
-
   return (
     <Box
       className="panel"

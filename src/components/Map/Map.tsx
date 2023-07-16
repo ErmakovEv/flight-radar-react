@@ -1,23 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MapContainer, TileLayer, useMapEvent } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import './Map.css';
-import { flights, flightStatus } from '../../api/proxy/requests';
 import CustomZoom from '../CustomZoom/CustomZoom';
 import getIcon from '../../utils/iconCreater';
 import AirportsList from '../AirportList/AirportList';
 import FlightMarker from '../FlightMarker/FlightMarker';
+import CustomDrawer from '../CustomDrawer/CustomDrawer';
+import 'leaflet/dist/leaflet.css';
+import './Map.css';
 
-import {
-  MyMapComponentProps,
-  MapLayerProps,
-  IMarkerData,
-  IFflightStatus,
-  ITrail,
-} from './Map.type';
-
-import { IFlightInfoData } from '../../api/proxy/types';
+import { MyMapComponentProps, MapLayerProps } from './Map.type';
 
 function MyMapComponent({ callback }: MyMapComponentProps) {
   const myMap = useMapEvent('moveend', () => {
@@ -31,87 +23,27 @@ function MyMapComponent({ callback }: MyMapComponentProps) {
 
 function MapLayer({
   center,
-  zone,
+  aircraftMap,
+  aircraftMapHandler,
   getZoneCoord,
   getSelectedFlights,
   panelViewHandler,
+  drawerState,
+  drawerCloseHandler,
+  viewInPanelDrawerHandler,
+  flightStatusObjArray,
 }: MapLayerProps) {
-  const [aircraftArr, setAircraftArr] = useState<Map<string, IMarkerData>>(
-    new Map()
-  );
-
-  const trailHandler = async (
-    isSelected: boolean | undefined,
-    id: string,
-    resultSelectedFlightsArr: IFflightStatus[],
-    dataFlight: IFlightInfoData
-  ) => {
-    if (isSelected) {
-      const flightStatusInfo = await flightStatus(id);
-      resultSelectedFlightsArr.push({
-        id,
-        aicraft: flightStatusInfo.data.aircraft,
-        airlane: flightStatusInfo.data.airline,
-        airport: flightStatusInfo.data.airport,
-        airspace: flightStatusInfo.data.airspace,
-        availability: flightStatusInfo.data.availability,
-        ems: flightStatusInfo.data.ems,
-        firstTimestamp: flightStatusInfo.data.firstTimestamp,
-        identification: flightStatusInfo.data.identification,
-        time: flightStatusInfo.data.time,
-        dataFlight,
-      });
-      return flightStatusInfo.data.trail.map((obj: ITrail) => [
-        obj.lat,
-        obj.lng,
-      ]);
-    }
-    return null;
-  };
-
-  useEffect(() => {
-    const intervalID = setInterval(async () => {
-      const res = await flights(zone);
-      const resultSelectedFlightsArr: IFflightStatus[] = [];
-      const resultArrFlightInfoData: Map<string, IMarkerData> = new Map();
-      const promises = Object.entries(res.data).map(async ([key, value]) => {
-        const lastDataAircraft = aircraftArr.get(key);
-        if (typeof value !== 'number') {
-          const trail = await trailHandler(
-            lastDataAircraft?.isSelected,
-            key,
-            resultSelectedFlightsArr,
-            value
-          );
-          const newObj: IMarkerData = {
-            data: value,
-            isSelected: lastDataAircraft?.isSelected || false,
-            trail,
-          };
-          resultArrFlightInfoData.set(key, newObj);
-        }
-      });
-      await Promise.all(promises);
-      getSelectedFlights(resultSelectedFlightsArr);
-      setAircraftArr(resultArrFlightInfoData);
-    }, 5000);
-    return () => {
-      clearInterval(intervalID);
-    };
-  }, [aircraftArr, zone]);
-
   const markerSelectHandler = async (id: string) => {
-    const aircraft = aircraftArr.get(id);
-    console.log(aircraft);
+    const aircraft = aircraftMap.get(id);
     if (aircraft) {
       if (aircraft.isSelected === false) {
         panelViewHandler(id);
       }
       aircraft.isSelected = !aircraft.isSelected;
-      aircraftArr.delete(id);
-      const newArr = new Map([...aircraftArr]);
+      aircraftMap.delete(id);
+      const newArr = new Map([...aircraftMap]);
       newArr.set(id, aircraft);
-      setAircraftArr(newArr);
+      aircraftMapHandler(newArr);
     }
   };
   return (
@@ -125,7 +57,7 @@ function MapLayer({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {[...aircraftArr]?.map((aircraft) => {
+      {[...aircraftMap]?.map((aircraft) => {
         const icon = getIcon(
           aircraft[1].data[8],
           aircraft[1].data[3],
@@ -144,6 +76,12 @@ function MapLayer({
 
       <MyMapComponent callback={getZoneCoord} />
       <CustomZoom home={center} />
+      <CustomDrawer
+        state={drawerState}
+        closeHandler={drawerCloseHandler}
+        viewInPanelHandler={viewInPanelDrawerHandler}
+        flightStatusObjArray={flightStatusObjArray}
+      />
     </MapContainer>
   );
 }

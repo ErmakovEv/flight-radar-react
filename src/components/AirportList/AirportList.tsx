@@ -4,7 +4,7 @@ import { Icon } from 'leaflet';
 import { useAppSelector } from '../../hooks/redux';
 import blueLocation from '../../img/blue-location.png';
 import redLocation from '../../img/red-location.png';
-import { allAirports, airport } from '../../api/proxy/requests';
+import { allAirports } from '../../api/proxy/requests';
 import './AirportList.css';
 import AirportPopup from '../AirportPopup/AirportPopup';
 
