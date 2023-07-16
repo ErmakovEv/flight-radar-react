@@ -4,6 +4,7 @@ const Endpoints = {
     REFRECH: 'http://127.0.0.1:3000/api/user/refresh',
     LOGOUT: 'http://127.0.0.1:3000/api/user/logout',
     PROFILE: 'http://127.0.0.1:3000/api/setting/get-config',
+    SETPROFILE: 'http://127.0.0.1:3000/api/setting/',
   },
   PROXY: {
     FLIGHTS: 'http://127.0.0.1:3000/api/proxy/flights',

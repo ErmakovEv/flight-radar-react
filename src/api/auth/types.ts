@@ -13,3 +13,8 @@ export interface IProfileRes {
   mapType?: number;
   geoPos?: string;
 }
+
+export interface ISettingsRes {
+  mapType: number;
+  pos: string;
+}

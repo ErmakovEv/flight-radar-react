@@ -5,6 +5,7 @@ import {
   createRoutesFromElements,
   Navigate,
 } from 'react-router-dom';
+import { Box, CircularProgress } from '@mui/material';
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from './hooks/redux';
 import MainPage from './pages/MainPage';
@@ -20,6 +21,8 @@ function App() {
   const isLoggedIn = useAppSelector(
     (state) => !!state.auth.authData.accessToken
   );
+
+  const userProfile = useAppSelector((state) => state.auth.profileData.profile);
 
   const { isAdmin } = useAdmin();
 
@@ -49,7 +52,18 @@ function App() {
         <Route path="/admin" element={<AdminPage />} />
         <Route
           path="/login"
-          element={!isLoggedIn ? <LoginPage /> : <Navigate to="/dashboard" />}
+          element={
+            // eslint-disable-next-line no-nested-ternary
+            !isLoggedIn ? (
+              <LoginPage />
+            ) : userProfile ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+              </Box>
+            )
+          }
         />
       </Route>
     )

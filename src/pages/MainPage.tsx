@@ -16,10 +16,10 @@ import { IFlightInfoData } from '../api/proxy/types';
 
 export default function MainPage() {
   const userProfile = useAppSelector((state) => state.auth.profileData.profile);
-  const airportIcao =
-    (userProfile?.geoPos as keyof typeof AirportCoord) || 'ULLI';
 
-  const [zone, setZone] = useState(AirportCoord[airportIcao].zone);
+  const airportIcao = userProfile?.geoPos as keyof typeof AirportCoord;
+
+  const [zone, setZone] = useState(AirportCoord[airportIcao]?.zone || []);
 
   const [aircraftMap, setAircraftMap] = useState<Map<string, IMarkerData>>(
     new Map()
@@ -105,25 +105,10 @@ export default function MainPage() {
     (obj) => obj.id === viewInPanel
   );
 
+  console.log(userProfile?.geoPos);
+
   return (
     <>
-      <MapLayer
-        center={AirportCoord[airportIcao].center}
-        zone={zone}
-        aircraftMap={aircraftMap}
-        aircraftMapHandler={(newMap: Map<string, IMarkerData>) =>
-          setAircraftMap(newMap)
-        }
-        getZoneCoord={handlerZone}
-        getSelectedFlights={(flightStatusInfoArr: IFflightStatus[]) =>
-          setFlightStatusObjArray(flightStatusInfoArr)
-        }
-        panelViewHandler={(id: string) => setViewInPanel(id)}
-        drawerState={isDrawerOpen}
-        drawerCloseHandler={() => setIsDrawerOpen(false)}
-        viewInPanelDrawerHandler={(id: string) => setViewInPanel(id)}
-        flightStatusObjArray={flightStatusObjArray}
-      />
       {displaedInPanelInfo ? (
         <FlightInfoPanel flightStatusObj={displaedInPanelInfo} />
       ) : null}
@@ -143,6 +128,26 @@ export default function MainPage() {
             closeCB={() => setOpenSettingsModal(false)}
             openCB={() => setOpenSettingsModal(true)}
             isOpen={openSettingsModal}
+          />
+          <MapLayer
+            center={
+              AirportCoord[userProfile?.geoPos as keyof typeof AirportCoord]
+                .center
+            }
+            zone={zone}
+            aircraftMap={aircraftMap}
+            aircraftMapHandler={(newMap: Map<string, IMarkerData>) =>
+              setAircraftMap(newMap)
+            }
+            getZoneCoord={handlerZone}
+            getSelectedFlights={(flightStatusInfoArr: IFflightStatus[]) =>
+              setFlightStatusObjArray(flightStatusInfoArr)
+            }
+            panelViewHandler={(id: string) => setViewInPanel(id)}
+            drawerState={isDrawerOpen}
+            drawerCloseHandler={() => setIsDrawerOpen(false)}
+            viewInPanelDrawerHandler={(id: string) => setViewInPanel(id)}
+            flightStatusObjArray={flightStatusObjArray}
           />
         </>
       ) : null}
