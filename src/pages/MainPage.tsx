@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import MapLayer from '../components/Map/Map';
 import BottomMenu from '../components/BottomMenu/BottomMenu';
 import { useAppSelector } from '../hooks/redux';
-import AirportCoord from '../utils/constants';
+import { AirportCoord } from '../utils/constants';
 import FlightInfoPanel from '../components/FlightInfoPanel/FlightInfoPanel';
 import {
   IFflightStatus,

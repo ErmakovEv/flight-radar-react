@@ -10,7 +10,7 @@ type FlightMarkerProps = {
 
 function FlightMarker({ aircraft, handler, icon }: FlightMarkerProps) {
   const map = useMap();
-
+  console.log(aircraft);
   return (
     <div>
       <Marker
@@ -24,7 +24,12 @@ function FlightMarker({ aircraft, handler, icon }: FlightMarkerProps) {
         }}
         icon={icon}
       >
-        <Tooltip>{aircraft[1].data[0]}</Tooltip>
+        <Tooltip>
+          <div>{aircraft[1].data[16]}</div>
+          <div>{`${aircraft[1].data[11]} - ${aircraft[1].data[12]}`}</div>
+          <div>{`${aircraft[1].data[9]}`}</div>
+          <div>{`${aircraft[1].data[8]}`}</div>
+        </Tooltip>
       </Marker>
       {aircraft[1].trail ? <Polyline positions={aircraft[1].trail} /> : null}
     </div>

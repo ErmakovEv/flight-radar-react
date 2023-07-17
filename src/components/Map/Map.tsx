@@ -1,11 +1,12 @@
-import { useState } from 'react';
 import { MapContainer, TileLayer, useMapEvent } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
+import { useAppSelector } from '../../hooks/redux';
 import CustomZoom from '../CustomZoom/CustomZoom';
 import getIcon from '../../utils/iconCreater';
 import AirportsList from '../AirportList/AirportList';
 import FlightMarker from '../FlightMarker/FlightMarker';
 import CustomDrawer from '../CustomDrawer/CustomDrawer';
+import { mapStyleList } from '../../utils/constants';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
 
@@ -46,6 +47,7 @@ function MapLayer({
       aircraftMapHandler(newArr);
     }
   };
+  const userProfile = useAppSelector((state) => state.auth.profileData.profile);
   return (
     <MapContainer
       center={center as LatLngExpression}
@@ -55,7 +57,7 @@ function MapLayer({
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url={mapStyleList[userProfile?.mapType || 0][1]}
       />
       {[...aircraftMap]?.map((aircraft) => {
         const icon = getIcon(

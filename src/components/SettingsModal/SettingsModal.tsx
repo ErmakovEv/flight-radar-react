@@ -10,10 +10,11 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  FormLabel,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useAppSelector } from '../../hooks/redux';
-import AirportCoord from '../../utils/constants';
+import { AirportCoord, mapStyleList } from '../../utils/constants';
 import { setProfile } from '../../api/auth/requests';
 
 type SettingsModalProps = {
@@ -23,11 +24,10 @@ type SettingsModalProps = {
 };
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  backgroundColor: 'var(--sec-bg-color)',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  color: theme.palette.text.secondary,
 }));
 
 const style = {
@@ -49,11 +49,16 @@ const style = {
 function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
   const userProfile = useAppSelector((state) => state.auth.profileData.profile);
   const [radioAirport, setRadioAirport] = useState(userProfile?.geoPos);
+  const [radioMapStyle, setMapStyle] = useState(userProfile?.mapType);
 
   const requestsHandler = async () => {};
 
   const handleChangeAirport = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRadioAirport((event.target as HTMLInputElement).value);
+  };
+
+  const handleChangeMapStyle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMapStyle(+(event.target as HTMLInputElement).value);
   };
 
   useEffect(() => {
@@ -62,7 +67,7 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
 
   const airportList = Object.keys(AirportCoord);
 
-  const requestNewSettings = (newGeoPos: string, newMapType = 0) => {
+  const requestNewSettings = (newGeoPos: string, newMapType: number) => {
     const param = {
       mapType: newMapType,
       pos: newGeoPos,
@@ -78,15 +83,22 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{ ...style, width: 350 }}>
-          <Typography sx={{ mb: 3 }}>User Settings</Typography>
+        <Box
+          sx={{ ...style, width: 350, backgroundColor: 'var(--main-bg-color)' }}
+        >
+          <Typography sx={{ mb: 3, color: 'var(--main-color)' }}>
+            User Settings
+          </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Item>home airport</Item>
-            </Grid>
             <Grid item xs={6}>
               <Item>
                 <FormControl>
+                  <FormLabel
+                    id="demo-radio-buttons-group-label"
+                    sx={{ color: 'var(--icao-bg-color)' }}
+                  >
+                    Home Airport
+                  </FormLabel>
                   <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
@@ -97,8 +109,23 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
                       <FormControlLabel
                         key={item}
                         value={item}
-                        control={<Radio />}
+                        control={
+                          <Radio
+                            sx={{
+                              color: 'var(--icao-bg-color)',
+                              '&.Mui-checked': {
+                                color: 'var(--icao-bg-color)',
+                              },
+                            }}
+                          />
+                        }
                         label={item}
+                        sx={{
+                          color: 'var(--icao-bg-color)',
+                          '&.Mui-checked': {
+                            color: 'var(--icao-bg-color)',
+                          },
+                        }}
                       />
                     ))}
                   </RadioGroup>
@@ -106,17 +133,53 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
               </Item>
             </Grid>
             <Grid item xs={6}>
-              <Item>map type</Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item>xs=8</Item>
+              <Item>
+                <FormControl>
+                  <FormLabel
+                    id="demo-radio-buttons-group-label"
+                    sx={{ color: 'var(--icao-bg-color)' }}
+                  >
+                    Card Style
+                  </FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={radioMapStyle}
+                    onChange={handleChangeMapStyle}
+                  >
+                    {mapStyleList.map((item, index) => (
+                      <FormControlLabel
+                        key={item[1]}
+                        value={index}
+                        control={
+                          <Radio
+                            sx={{
+                              color: 'var(--icao-bg-color)',
+                              '&.Mui-checked': {
+                                color: 'var(--icao-bg-color)',
+                              },
+                            }}
+                          />
+                        }
+                        label={item[0]}
+                        sx={{
+                          color: 'var(--icao-bg-color)',
+                          '&.Mui-checked': {
+                            color: 'var(--icao-bg-color)',
+                          },
+                        }}
+                      />
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+              </Item>
             </Grid>
           </Grid>
           <Button
             sx={{ mt: 3 }}
             variant="contained"
             onClick={() => {
-              requestNewSettings(radioAirport || '', userProfile?.mapType);
+              requestNewSettings(radioAirport || '', radioMapStyle || 0);
             }}
           >
             Apply
