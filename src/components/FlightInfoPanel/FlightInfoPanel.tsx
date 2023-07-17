@@ -28,7 +28,7 @@ const Grid = styled(MuiGrid)(({ theme }) => ({
 }));
 
 type FlightInfoPanelProps = {
-  flightStatusObj: IFflightStatus;
+  flightStatusObj: Partial<IFflightStatus>;
 };
 
 function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
@@ -85,18 +85,18 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           <div className="panel-header">
             <div className="panel-header__first-level">
               <span className="call-sign">
-                {flightStatusObj.identification.callsign}
+                {flightStatusObj?.identification?.callsign || 'N/A'}
               </span>
               <span className="flight-number">
-                {flightStatusObj.identification.number.default}
+                {flightStatusObj?.identification?.number?.default || 'N/A'}
               </span>
               <span className="aircraft-icao">
-                {flightStatusObj.aicraft.model.code || 0}
+                {flightStatusObj?.aicraft?.model?.code || 0}
               </span>
             </div>
             <div className="panel-header__second-level">
               <span className="aviacompany">
-                {flightStatusObj.airlane.name}
+                {flightStatusObj?.airlane?.name}
               </span>
             </div>
           </div>
@@ -107,7 +107,11 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
         >
           <div className="panel-img">
             <img
-              src={flightStatusObj.aicraft.images.large[0]?.src}
+              src={
+                flightStatusObj?.aicraft?.images?.large
+                  ? flightStatusObj?.aicraft?.images.large[0].src
+                  : ''
+              }
               alt="aircraftImg"
               className="img"
             />
@@ -122,13 +126,15 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
               <Grid container>
                 <Grid item xs>
                   <div className="airport-icao">
-                    {flightStatusObj.airport.origin.code.iata || 0}
+                    {flightStatusObj?.airport?.origin?.code?.iata || 0}
                   </div>
                   <div className="airport-city">
-                    {flightStatusObj.airport.origin.position.region.city}
+                    {flightStatusObj.airport?.origin?.position?.region?.city ||
+                      'N/A'}
                   </div>
                   <div className="airport-time">
-                    {flightStatusObj.airport.origin.timezone.offsetHours}
+                    {flightStatusObj.airport?.origin?.timezone?.offsetHours ||
+                      'N/A'}
                   </div>
                 </Grid>
                 <Divider
@@ -145,13 +151,15 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                 </Divider>
                 <Grid item xs>
                   <div className="airport-icao">
-                    {flightStatusObj.airport.destination.code.iata || 0}
+                    {flightStatusObj.airport?.destination?.code?.iata || 0}
                   </div>
                   <div className="airport-city">
-                    {flightStatusObj.airport.destination.position.region.city}
+                    {flightStatusObj.airport?.destination?.position?.region
+                      ?.city || 'N/A'}
                   </div>
                   <div className="airport-time">
-                    {flightStatusObj.airport.destination.timezone.offsetHours}
+                    {flightStatusObj.airport?.destination?.timezone
+                      ?.offsetHours || 'N/A'}
                   </div>
                 </Grid>
               </Grid>
@@ -161,8 +169,8 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                   <span className="time-tipe">SHEDULED</span>
                   <span className="time-value">
                     {timeConvert(
-                      flightStatusObj.airport.origin.timezone.offset,
-                      flightStatusObj.time.scheduled.departure
+                      flightStatusObj.airport?.origin?.timezone?.offset || 0,
+                      flightStatusObj.time?.scheduled?.departure || 0
                     )}
                   </span>
                 </Grid>
@@ -171,8 +179,9 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                   <span className="time-tipe">SHEDULED</span>
                   <span className="time-value">
                     {timeConvert(
-                      flightStatusObj.airport.destination.timezone.offset,
-                      flightStatusObj.time.scheduled.arrival
+                      flightStatusObj.airport?.destination?.timezone?.offset ||
+                        0,
+                      flightStatusObj.time?.scheduled?.arrival || 0
                     )}
                   </span>
                 </Grid>
@@ -183,8 +192,8 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                   <span className="time-tipe">ACTUAL</span>
                   <span className="time-value">
                     {timeConvert(
-                      flightStatusObj.airport.origin.timezone.offset,
-                      flightStatusObj.time.real.departure
+                      flightStatusObj.airport?.origin?.timezone?.offset || 0,
+                      flightStatusObj.time?.real?.departure || 0
                     )}
                   </span>
                 </Grid>
@@ -193,8 +202,9 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                   <span className="time-tipe">ESTIMATED</span>
                   <span className="time-value">
                     {timeConvert(
-                      flightStatusObj.airport.destination.timezone.offset,
-                      flightStatusObj.time.estimated.arrival
+                      flightStatusObj.airport?.destination?.timezone?.offset ||
+                        0,
+                      flightStatusObj.time?.estimated?.arrival || 0
                     )}
                   </span>
                 </Grid>
@@ -213,8 +223,8 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                   className="progress"
                   style={{
                     width: `${getPositionProgressIcon(
-                      flightStatusObj.time.estimated.arrival,
-                      flightStatusObj.time.real.departure
+                      flightStatusObj.time?.estimated?.arrival || 0,
+                      flightStatusObj.time?.real?.departure || 0
                     )}%`,
                   }}
                 >
@@ -223,8 +233,8 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                     sx={{
                       left: `${
                         getPositionProgressIcon(
-                          flightStatusObj.time.estimated.arrival,
-                          flightStatusObj.time.real.departure
+                          flightStatusObj.time?.estimated?.arrival || 0,
+                          flightStatusObj.time?.real?.departure || 0
                         ) - 5
                       }%`,
                     }}
@@ -256,7 +266,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
               <span className="panel-information__summary_name">
                 More{' '}
                 <span className="value">
-                  {flightStatusObj.identification.callsign}
+                  {flightStatusObj.identification?.callsign || 'N/A'}
                 </span>{' '}
                 information
               </span>
@@ -300,11 +310,11 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                   <Grid className="gridItem" sx={{ padding: '4px' }} item xs>
                     <div className="param">AIRCRAFT TYPE</div>
                     <div className="value">
-                      {flightStatusObj.aicraft.model.text}
+                      {flightStatusObj.aicraft?.model?.text || 'N/A'}
                     </div>
                     <div className="param">REGISTRATION</div>
                     <div className="value">
-                      {flightStatusObj.aicraft.registration}
+                      {flightStatusObj.aicraft?.registration || 'N/A'}
                     </div>
                     <div className="param">COUNTRY OF REG.</div>
                     <div className="value">
@@ -315,25 +325,46 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                   <Grid className="gridItem" sx={{ padding: '4px' }} item xs>
                     <div className="param">CALIBRATED ALT.</div>
                     <div className="value">
-                      {flightStatusObj.dataFlight[4]} ft
+                      {flightStatusObj?.dataFlight
+                        ? flightStatusObj?.dataFlight[4]
+                        : 0}
+                      ft
                     </div>
                     <div className="param">TRACK</div>
                     <div className="value">
-                      {flightStatusObj.dataFlight[3]}°
+                      {flightStatusObj.dataFlight
+                        ? flightStatusObj.dataFlight[3]
+                        : 0}
+                      °
                     </div>
                     <div className="param">GROUND SPEED </div>
                     <div className="value">
-                      {flightStatusObj.dataFlight[5]}kts
+                      {flightStatusObj.dataFlight
+                        ? flightStatusObj.dataFlight[5]
+                        : 0}
+                      kts
                     </div>
                   </Grid>
                   <Divider className="devider-hor" />
                   <Grid className="gridItem" sx={{ padding: '4px' }} item xs>
                     <div className="param">ICAO 24-BIT ADDRESS</div>
-                    <div className="value">{flightStatusObj.dataFlight[0]}</div>
+                    <div className="value">
+                      {flightStatusObj.dataFlight
+                        ? flightStatusObj.dataFlight[0]
+                        : 0}
+                    </div>
                     <div className="param">LATITUDE</div>
-                    <div className="value">{flightStatusObj.dataFlight[1]}</div>
+                    <div className="value">
+                      {flightStatusObj.dataFlight
+                        ? flightStatusObj.dataFlight[1]
+                        : 0}
+                    </div>
                     <div className="param">LONGITUDE</div>
-                    <div className="value">{flightStatusObj.dataFlight[2]}</div>
+                    <div className="value">
+                      {flightStatusObj.dataFlight
+                        ? flightStatusObj.dataFlight[2]
+                        : 0}
+                    </div>
                   </Grid>
                 </Grid>
               </Grid>
