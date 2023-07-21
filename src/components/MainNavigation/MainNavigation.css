@@ -1,10 +1,10 @@
-* {
+/* * {
   --main-color: rgb(242, 180, 35);
   --main-bg-color: rgb(60, 60, 60);
   --sec-bg-color: rgb(36, 36, 36);
   --main-text-color: rgb(235, 235, 241);
   --icao-bg-color: rgb(42, 155, 230);
-}
+} */
 
 a {
   text-decoration: none;

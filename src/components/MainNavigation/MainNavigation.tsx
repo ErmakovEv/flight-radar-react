@@ -1,10 +1,11 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { AppBar, Button, Toolbar, Typography, IconButton } from '@mui/material';
+import { AppBar, Button, Toolbar, Switch } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { IRootState } from '../../store/store';
 import { logoutUser } from '../../store/reducers/actionCreators';
+import { toggleTheme } from '../../store/reducers/themeSlice';
 import './MainNavigation.css';
 
 function MainNavigation() {
@@ -12,16 +13,28 @@ function MainNavigation() {
     (state: IRootState) => !!state.auth.authData.accessToken
   );
 
-  const navigate = useNavigate();
+  const theme = useAppSelector((state) => state.theme);
   const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
   const logoutHandler = () => {
     dispatch(logoutUser());
     navigate('/');
   };
 
   return (
-    <AppBar sx={{ backgroundColor: 'var( --main-bg-color)' }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+    <AppBar
+      sx={{
+        backgroundColor: 'var( --main-bg-color)',
+        position: 'fixed',
+        zIndex: 10000,
+      }}
+    >
+      <Toolbar
+        color="primary"
+        sx={{ display: 'flex', justifyContent: 'space-between' }}
+      >
         <div>
           <Button color="inherit">
             <NavLink to="/">
@@ -41,6 +54,12 @@ function MainNavigation() {
               <NavLink to="/login">Login</NavLink>
             )}
           </Button>
+        </div>
+        <div>
+          <Switch
+            checked={theme.darkTheme}
+            onChange={() => dispatch(toggleTheme())}
+          />
         </div>
         <div>
           {isLoggedIn ? (

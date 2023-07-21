@@ -1,68 +1,124 @@
-import { MapContainer, TileLayer, FeatureGroup } from 'react-leaflet';
-import { EditControl } from 'react-leaflet-draw';
-import { Button } from '@mui/material';
-import 'leaflet-draw/dist/leaflet.draw.css';
 import { useState } from 'react';
-import { DrawEvents } from 'leaflet';
-import { setLayer } from '../api/mapLayer/requests';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import GridOnIcon from '@mui/icons-material/GridOn';
+import MapIcon from '@mui/icons-material/Map';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
+import MapLayerCreater from '../components/MapLayerCreater/MapLayerCreater';
+import UserCreater from '../components/UserCreater/UserCreater';
+import UsersTable from '../components/UsersTable/UsersTable';
+import MainNavigation from '../components/MainNavigation/MainNavigation';
+import MapLayersTable from '../components/MapLayersTable/MapLayersTable';
+
+const drawerWidth = 240;
+
+const pageArray = [
+  {
+    id: '0',
+    name: 'User editor',
+    element: <UserCreater />,
+    icon: <PersonAddIcon />,
+    group: 0,
+  },
+  {
+    id: '1',
+    name: 'Users config',
+    element: <UsersTable />,
+    icon: <SwitchAccountIcon />,
+    group: 0,
+  },
+  {
+    id: '2',
+    name: 'Layer editor',
+    element: <MapLayerCreater />,
+    icon: <MapIcon />,
+    group: 1,
+  },
+  {
+    id: '3',
+    name: 'Layers config',
+    element: <MapLayersTable />,
+    icon: <GridOnIcon />,
+    group: 1,
+  },
+];
 
 export default function AdminPage() {
-  const [mapLayer, setMapLayer] = useState<Array<Array<number>>>([]);
-
-  const onCreateDraw = (e: DrawEvents.Created) => {
-    const { layer } = e;
-    const polygon = layer.toGeoJSON();
-    setMapLayer(polygon.geometry.coordinates);
-  };
-  const onEditedDraw = (e: DrawEvents.Edited) => {
-    console.log(e);
-  };
-  const onDeletedDraw = (e: DrawEvents.Deleted) => {
-    console.log(e);
-  };
-
-  const buttonHandler = async () => {
-    const testLayer = {
-      name: 'test2',
-      mapLayerCoord: mapLayer,
-    };
-    const data = await setLayer(testLayer);
-    console.log('response', data);
-  };
-
+  const [activePage, setActivePage] = useState<string>('User editor');
+  const ActiveElement = pageArray.find((item) => item.name === activePage);
   return (
-    <MapContainer
-      center={[59.799774, 30.273036]}
-      zoom={12}
-      scrollWheelZoom={false}
-      // zoomControl={false}
-    >
-      <FeatureGroup>
-        <EditControl
-          position="bottomleft"
-          onCreated={onCreateDraw}
-          onEdited={onEditedDraw}
-          onDeleted={onDeletedDraw}
-          draw={{
-            rectangle: false,
-            polyline: false,
-            circle: false,
-            circlemarker: false,
-            marker: false,
-          }}
-        />
-        <Button
-          style={{ position: 'fixed', zIndex: 1000, bottom: '5%', left: '50%' }}
-          variant="outlined"
-          onClick={() => buttonHandler()}
-        >
-          Test
-        </Button>
-      </FeatureGroup>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-    </MapContainer>
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <MainNavigation />
+      <Drawer
+        variant="permanent"
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+      >
+        <Toolbar />
+        <Box sx={{ overflow: 'auto' }}>
+          <List>
+            {pageArray.map((page) => {
+              if (!page.group) {
+                return (
+                  <ListItem
+                    key={page.id}
+                    disablePadding
+                    onClick={() => setActivePage(page.name)}
+                  >
+                    <ListItemButton>
+                      <ListItemIcon>{page.icon}</ListItemIcon>
+                      <ListItemText primary={page.name} />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              }
+              return null;
+            })}
+          </List>
+          <Divider />
+          <List>
+            {pageArray.map((page) => {
+              if (page.group) {
+                return (
+                  <ListItem
+                    key={page.id}
+                    disablePadding
+                    onClick={() => setActivePage(page.name)}
+                  >
+                    <ListItemButton>
+                      <ListItemIcon>{page.icon}</ListItemIcon>
+                      <ListItemText primary={page.name} />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              }
+              return null;
+            })}
+          </List>
+        </Box>
+      </Drawer>
+      <Box component="main" sx={{ flexGrow: 1 }}>
+        {activePage === 'Layer editor' ? null : <Toolbar />}
+        {ActiveElement ? ActiveElement.element : null}
+      </Box>
+    </Box>
   );
 }

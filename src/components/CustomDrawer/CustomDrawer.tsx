@@ -1,4 +1,4 @@
-import { Drawer, Box, Paper } from '@mui/material';
+import { Drawer, Box, Paper, Toolbar } from '@mui/material';
 import { LatLngExpression } from 'leaflet';
 import { useMap } from 'react-leaflet';
 import { IFflightStatus } from '../Map/Map.type';
@@ -30,6 +30,7 @@ function CustomDrawer({
           backgroundColor: 'var(--sec-bg-color)',
         }}
       >
+        <Toolbar />
         {flightStatusObjArray.map((obj) => (
           <Paper
             key={obj.dataFlight[0]}

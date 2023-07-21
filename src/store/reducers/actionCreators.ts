@@ -65,7 +65,6 @@ export const getAccessToken =
         if (refreshTokenRequest === null) {
           refreshTokenRequest = refreshToken();
         }
-        console.log('getAccessToken');
         // const res = await refreshTokenRequest;
         const res = await refreshToken();
         refreshTokenRequest = null;

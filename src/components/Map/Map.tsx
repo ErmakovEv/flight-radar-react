@@ -82,8 +82,6 @@ function MapLayer({
     mapLayerHandler();
   }, []);
 
-  console.log('mapLayers', mapLayers);
-
   return (
     <MapContainer
       center={center as LatLngExpression}
