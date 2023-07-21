@@ -10,7 +10,6 @@ type FlightMarkerProps = {
 
 function FlightMarker({ aircraft, handler, icon }: FlightMarkerProps) {
   const map = useMap();
-  console.log(aircraft);
   return (
     <div>
       <Marker

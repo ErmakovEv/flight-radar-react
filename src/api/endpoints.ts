@@ -13,6 +13,9 @@ const Endpoints = {
     FLIGHTSTATUS: 'http://127.0.0.1:3000/api/proxy/flight-status',
     SHEDULE: 'http://127.0.0.1:3000/api/proxy/shedule',
   },
+  MAPLAYER: {
+    LAYER: 'http://127.0.0.1:3000/api/layer',
+  },
 };
 
 export default Endpoints;

@@ -1,5 +1,6 @@
 import { LatLngExpression } from 'leaflet';
 import { IFlightInfoData } from '../../api/proxy/types';
+import ILayerRes from '../../api/mapLayer/types';
 
 export type MyMapComponentProps = {
   callback: (coordZone: number[]) => void;

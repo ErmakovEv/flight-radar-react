@@ -1,5 +1,13 @@
-import { MapContainer, TileLayer, useMapEvent } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  useMapEvent,
+  Polygon,
+  Tooltip,
+  Popup,
+} from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
+import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../hooks/redux';
 import CustomZoom from '../CustomZoom/CustomZoom';
 import getIcon from '../../utils/iconCreater';
@@ -7,6 +15,8 @@ import AirportsList from '../AirportList/AirportList';
 import FlightMarker from '../FlightMarker/FlightMarker';
 import CustomDrawer from '../CustomDrawer/CustomDrawer';
 import { mapStyleList } from '../../utils/constants';
+import { fetchLayers } from '../../api/mapLayer/requests';
+import { ILayerReq } from '../../api/mapLayer/types';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
 
@@ -47,7 +57,33 @@ function MapLayer({
       aircraftMapHandler(newArr);
     }
   };
+  const [mapLayers, setMapLayers] = useState<ILayerReq[]>([]);
+
   const userProfile = useAppSelector((state) => state.auth.profileData.profile);
+
+  const mapLayerHandler = async () => {
+    const res = await fetchLayers();
+    const newMapLayerArr = res.data.map(
+      (item: {
+        createdAt: string;
+        id: number;
+        mapLayerCoord: string[][];
+        name: string;
+        updatedAt: string;
+      }) => {
+        const { id, mapLayerCoord, name } = item;
+        return { mapLayerCoord, name, id };
+      }
+    );
+    setMapLayers(newMapLayerArr);
+  };
+
+  useEffect(() => {
+    mapLayerHandler();
+  }, []);
+
+  console.log('mapLayers', mapLayers);
+
   return (
     <MapContainer
       center={center as LatLngExpression}
@@ -84,6 +120,24 @@ function MapLayer({
         viewInPanelHandler={viewInPanelDrawerHandler}
         flightStatusObjArray={flightStatusObjArray}
       />
+      {mapLayers.length
+        ? mapLayers.map((layer) => {
+            const intArr = layer.mapLayerCoord[0].map((strArr) => {
+              if (typeof strArr !== 'number')
+                return strArr.map((str) => +str).reverse();
+              return null;
+            });
+            return (
+              <Polygon
+                pathOptions={{ color: 'red' }}
+                positions={intArr as LatLngExpression[]}
+                key={layer.id}
+              >
+                <Popup>{layer.name}</Popup>
+              </Polygon>
+            );
+          })
+        : null}
     </MapContainer>
   );
 }
@@ -91,7 +145,8 @@ function MapLayer({
 export default MapLayer;
 
 /*
-const trailHandlerPromise = (isSelected, id) => {
+
+  const trailHandlerPromise = (isSelected, id) => {
   return new Promise(async (resolve, reject) => {
     try {
       const flightStatusInfo = await flightStatus(id);

@@ -105,8 +105,6 @@ export default function MainPage() {
     (obj) => obj.id === viewInPanel
   );
 
-  console.log(userProfile?.geoPos);
-
   return (
     <>
       {displaedInPanelInfo ? (
