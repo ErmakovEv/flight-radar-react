@@ -18,3 +18,17 @@ export interface ISettingsRes {
   mapType: number;
   pos: string;
 }
+
+export interface IUserRes {
+  id: number;
+  email: string;
+  role: string;
+  profile?: {
+    createdAt: string;
+    updatedAt: string;
+    geoPos: string;
+    id: number;
+    mapType: number;
+    userId: number;
+  };
+}

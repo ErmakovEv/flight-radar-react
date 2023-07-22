@@ -2,7 +2,13 @@ import { AxiosPromise } from 'axios';
 import Endpoints from '../endpoints';
 // eslint-disable-next-line import/no-cycle
 import axiosInstance from '../instanceAxios';
-import { ILoginReq, ILoginRes, IProfileRes, ISettingsRes } from './types';
+import {
+  ILoginReq,
+  ILoginRes,
+  IProfileRes,
+  ISettingsRes,
+  IUserRes,
+} from './types';
 
 export const login = (params: ILoginReq): AxiosPromise<ILoginRes> =>
   axiosInstance.post(Endpoints.AUTH.LOGIN, params);
@@ -21,3 +27,9 @@ export const setProfile = (
   email: string
 ): AxiosPromise<IProfileRes> =>
   axiosInstance.post(`${Endpoints.AUTH.SETPROFILE}/${email}`, params);
+
+export const fetchAllUsers = (): AxiosPromise<any> =>
+  axiosInstance.get(Endpoints.AUTH.ALLPROFILES);
+
+export const deleteUsers = (params: { usersID: number[] }): AxiosPromise<any> =>
+  axiosInstance.post(Endpoints.AUTH.ALLPROFILES, params);

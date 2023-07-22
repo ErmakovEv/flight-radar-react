@@ -9,8 +9,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import GridOnIcon from '@mui/icons-material/GridOn';
 import MapIcon from '@mui/icons-material/Map';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
