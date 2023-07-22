@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, FeatureGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
-import { Button } from '@mui/material';
+import { Button, TextField, Paper } from '@mui/material';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import { useState } from 'react';
 import { DrawEvents } from 'leaflet';
@@ -8,6 +8,7 @@ import { setLayer } from '../../api/mapLayer/requests';
 
 export default function MapLayerCreater() {
   const [mapLayer, setMapLayer] = useState<Array<Array<number>>>([]);
+  const [nameLayer, setNameLayer] = useState<string>('');
 
   const onCreateDraw = (e: DrawEvents.Created) => {
     const { layer } = e;
@@ -23,11 +24,11 @@ export default function MapLayerCreater() {
 
   const buttonHandler = async () => {
     const testLayer = {
-      name: 'test2',
+      name: nameLayer,
       mapLayerCoord: mapLayer,
     };
-    const data = await setLayer(testLayer);
-    console.log('response', data);
+    await setLayer(testLayer);
+    setNameLayer('');
   };
 
   return (
@@ -51,14 +52,29 @@ export default function MapLayerCreater() {
             marker: false,
           }}
         />
-        <Button
-          style={{ position: 'fixed', zIndex: 1000, bottom: '5%', left: '50%' }}
-          variant="outlined"
-          onClick={() => buttonHandler()}
-        >
-          Test
-        </Button>
       </FeatureGroup>
+      <Paper
+        sx={{
+          maxWidth: '100%',
+          display: 'flex',
+          backgroundColor: 'var(--main-bg-color)',
+          position: 'fixed',
+          bottom: '5%',
+          left: '60%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 1000,
+        }}
+        className="menu"
+      >
+        <TextField
+          id="outlined-basic"
+          label="Layer name"
+          variant="standard"
+          onChange={(e) => setNameLayer(e.target.value)}
+          value={nameLayer}
+        />
+        <Button onClick={() => buttonHandler()}>Create</Button>
+      </Paper>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -9,3 +9,6 @@ export const fetchLayers = (): AxiosPromise<any> =>
 
 export const setLayer = (params: ILayerRes): AxiosPromise<any> =>
   axiosInstance.post(Endpoints.MAPLAYER.LAYER, params);
+
+export const deleteLayers = (params: { layers: number[] }): AxiosPromise<any> =>
+  axiosInstance.post(Endpoints.MAPLAYER.DELLAYERS, params);

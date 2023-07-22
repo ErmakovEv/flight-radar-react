@@ -6,6 +6,7 @@ import {
   ILoginReq,
   ILoginRes,
   IProfileRes,
+  IRegReq,
   ISettingsRes,
   IUserRes,
 } from './types';
@@ -33,3 +34,6 @@ export const fetchAllUsers = (): AxiosPromise<any> =>
 
 export const deleteUsers = (params: { usersID: number[] }): AxiosPromise<any> =>
   axiosInstance.post(Endpoints.AUTH.ALLPROFILES, params);
+
+export const regUser = (params: IRegReq): AxiosPromise<any> =>
+  axiosInstance.post(Endpoints.AUTH.REGISTRATION, params);

@@ -32,3 +32,9 @@ export interface IUserRes {
     userId: number;
   };
 }
+
+export interface IRegReq {
+  email: string;
+  password: string;
+  role: string;
+}

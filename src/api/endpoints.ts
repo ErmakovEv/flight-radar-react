@@ -6,6 +6,7 @@ const Endpoints = {
     PROFILE: 'http://127.0.0.1:3000/api/setting/get-config',
     ALLPROFILES: 'http://127.0.0.1:3000/api/user/',
     SETPROFILE: 'http://127.0.0.1:3000/api/setting/',
+    REGISTRATION: 'http://127.0.0.1:3000/api/user/reg',
   },
   PROXY: {
     FLIGHTS: 'http://127.0.0.1:3000/api/proxy/flights',
@@ -16,6 +17,7 @@ const Endpoints = {
   },
   MAPLAYER: {
     LAYER: 'http://127.0.0.1:3000/api/layer',
+    DELLAYERS: 'http://127.0.0.1:3000/api/layer/del',
   },
 };
 
