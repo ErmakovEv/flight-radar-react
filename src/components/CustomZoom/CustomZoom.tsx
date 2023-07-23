@@ -5,7 +5,6 @@ import NavigationIcon from '@mui/icons-material/Navigation';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FlightIcon from '@mui/icons-material/Flight';
-
 import './CustomZoom.css';
 
 function CustomZoom({ home }: { home: number[] }) {
@@ -50,10 +49,15 @@ function CustomZoom({ home }: { home: number[] }) {
           height: 320,
           transform: 'translateZ(0px)',
           flexGrow: 1,
+          color: 'secondary.dark',
         }}
       >
         <SpeedDial
-          FabProps={{ className: 'SpeedDial' }}
+          FabProps={{
+            className: 'SpeedDial',
+            sx: { backgroundColor: 'background.default' },
+            color: 'inherit',
+          }}
           ariaLabel="SpeedDial openIcon example"
           sx={{
             position: 'absolute',
@@ -64,7 +68,7 @@ function CustomZoom({ home }: { home: number[] }) {
         >
           {actions.map((action) => (
             <SpeedDialAction
-              sx={{ backgroundColor: 'var(--main-bg-color)' }}
+              sx={{ color: 'secondary.dark' }}
               key={action.name}
               icon={action.icon}
               tooltipTitle={action.name}

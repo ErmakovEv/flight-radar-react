@@ -38,8 +38,8 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  // bgcolor: 'var(--main-bg-color)',
-  bgcolor: 'white',
+  color: 'info.dark',
+  bgcolor: 'primary.light',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
@@ -83,19 +83,17 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-          sx={{ ...style, width: 350, backgroundColor: 'var(--main-bg-color)' }}
-        >
-          <Typography sx={{ mb: 3, color: 'var(--main-color)' }}>
+        <Box sx={{ ...style, width: 350 }}>
+          <Typography sx={{ mb: 3, color: 'secondary.main' }}>
             User Settings
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <Item>
+              <Item sx={{ bgcolor: 'primary.main' }}>
                 <FormControl>
                   <FormLabel
                     id="demo-radio-buttons-group-label"
-                    sx={{ color: 'var(--icao-bg-color)' }}
+                    sx={{ color: 'secondary.main' }}
                   >
                     Home Airport
                   </FormLabel>
@@ -112,18 +110,18 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
                         control={
                           <Radio
                             sx={{
-                              color: 'var(--icao-bg-color)',
+                              color: 'secondary.main',
                               '&.Mui-checked': {
-                                color: 'var(--icao-bg-color)',
+                                color: 'secondary.main',
                               },
                             }}
                           />
                         }
                         label={item}
                         sx={{
-                          color: 'var(--icao-bg-color)',
+                          color: 'secondary.main',
                           '&.Mui-checked': {
-                            color: 'var(--icao-bg-color)',
+                            color: 'secondary.main',
                           },
                         }}
                       />
@@ -133,11 +131,11 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
               </Item>
             </Grid>
             <Grid item xs={6}>
-              <Item>
+              <Item sx={{ bgcolor: 'primary.main' }}>
                 <FormControl>
                   <FormLabel
                     id="demo-radio-buttons-group-label"
-                    sx={{ color: 'var(--icao-bg-color)' }}
+                    sx={{ color: 'secondary.main' }}
                   >
                     Card Style
                   </FormLabel>
@@ -154,18 +152,18 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
                         control={
                           <Radio
                             sx={{
-                              color: 'var(--icao-bg-color)',
+                              color: 'secondary.main',
                               '&.Mui-checked': {
-                                color: 'var(--icao-bg-color)',
+                                color: 'secondary.main',
                               },
                             }}
                           />
                         }
                         label={item[0]}
                         sx={{
-                          color: 'var(--icao-bg-color)',
+                          color: 'secondary.main',
                           '&.Mui-checked': {
-                            color: 'var(--icao-bg-color)',
+                            color: 'secondary.main',
                           },
                         }}
                       />
@@ -176,7 +174,12 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
             </Grid>
           </Grid>
           <Button
-            sx={{ mt: 3 }}
+            sx={{
+              mt: 3,
+              mb: 2,
+              color: 'black',
+              backgroundColor: 'secondary.main',
+            }}
             variant="contained"
             onClick={() => {
               requestNewSettings(radioAirport || '', radioMapStyle || 0);

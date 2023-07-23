@@ -62,7 +62,6 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
     <Box
       className="panel"
       sx={{
-        bgcolor: 'grey',
         width: 300,
         maxHeight: '70vh',
         flexDirection: 'column',
@@ -70,13 +69,13 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
     >
       <Accordion>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
+          expandIcon={<ExpandMoreIcon sx={{ color: 'secondary.main' }} />}
           className="accordion-summary"
           aria-controls="panel1a-content"
           id="panel1a-header"
           sx={{
-            backgroundColor: 'var(--main-bg-color)',
-            color: 'var(--main-text-color)',
+            backgroundColor: 'primary.light',
+            color: 'info.dark',
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
@@ -84,7 +83,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
         >
           <div className="panel-header">
             <div className="panel-header__first-level">
-              <span className="call-sign">
+              <span className="call-sign" style={{ color: 'secondary.dark' }}>
                 {flightStatusObj?.identification?.callsign || 'N/A'}
               </span>
               <span className="flight-number">
@@ -102,7 +101,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           </div>
         </AccordionSummary>
         <AccordionDetails
-          sx={{ backgroundColor: 'var(--sec-bg-color)', padding: 1 }}
+          sx={{ backgroundColor: 'primary.main', padding: 1 }}
           className="accordion-details"
         >
           <div className="panel-img">
@@ -119,8 +118,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           <div className="panel-shedule">
             <Paper
               sx={{
-                backgroundColor: 'var(--main-bg-color)',
-                color: 'var(--main-text-color)',
+                backgroundColor: 'primary.light',
               }}
             >
               <Grid container>
@@ -213,7 +211,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           </div>
           <Paper
             sx={{
-              backgroundColor: 'var(--main-bg-color)',
+              backgroundColor: 'primary.light',
               color: 'var(--main-text-color)',
             }}
           >
@@ -241,24 +239,29 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                   />
                 </div>
               </div>
-              <div className="panel-timeline-info">
-                {/* <div className="panel-timeline-info__elapsed">
+              {/* <div className="panel-timeline-info"> */}
+              {/* <div className="panel-timeline-info__elapsed">
                   606 km, 00:49 ago
                 </div>
                 <div className="panel-timeline-info__remaining">
                   1,728 km, in 02:10
                 </div> */}
-              </div>
+              {/* </div> */}
             </div>
           </Paper>
 
-          <Accordion sx={{ padding: 0, marginTop: '10px' }}>
+          <Accordion
+            sx={{
+              padding: 0,
+              marginTop: '10px',
+              backgroundColor: 'primary.light',
+            }}
+          >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
+              expandIcon={<ExpandMoreIcon sx={{ color: 'secondary.main' }} />}
               aria-controls="panel1a-content"
               id="panel1a-header"
               sx={{
-                backgroundColor: 'var(--main-bg-color)',
                 color: 'var(--main-text-color)',
               }}
             >
@@ -281,7 +284,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           </Accordion>
           <Paper
             sx={{
-              backgroundColor: 'var(--main-bg-color)',
+              backgroundColor: 'primary.light',
               color: 'var(--main-text-color)',
             }}
           >
@@ -372,13 +375,13 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           </Paper>
           <div className="panel-footer">
             <div>
-              <RemoveRedEyeIcon sx={{ color: 'var(--icao-bg-color)' }} />
+              <RemoveRedEyeIcon sx={{ color: 'secondary.light' }} />
             </div>
             <div>
-              <ShareIcon sx={{ color: 'var(--icao-bg-color)' }} />
+              <ShareIcon sx={{ color: 'secondary.light' }} />
             </div>
             <div>
-              <MoreHorizIcon sx={{ color: 'var(--icao-bg-color)' }} />
+              <MoreHorizIcon sx={{ color: 'secondary.light' }} />
             </div>
           </div>
         </AccordionDetails>

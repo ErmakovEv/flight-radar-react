@@ -13,7 +13,7 @@
 }
 
 .accordion-details::-webkit-scrollbar-thumb {
-  background-color: var(--main-color);
+  background-color: #3da58a;
   border-radius: 3px;
 }
 
@@ -32,28 +32,30 @@
 }
 
 .panel::-webkit-scrollbar-thumb {
-  background-color: var(--main-color);
+  background-color: #3da58a;
   border-radius: 3px;
 }
 
 .call-sign {
   margin-right: 10px;
   font-size: 18px;
-  color: var(--main-color);
+  background: #3da58a;
+  border-radius: 3px;
+  padding: 2px;
+  /* color: #3da58a; */
 }
 
 .flight-number {
   padding: 2px;
   margin-right: 5px;
   font-size: 12px;
-  background: grey;
-  border-radius: 3px;
+  /* color: #3da58a; */
 }
 
 .aircraft-icao {
   padding: 2px;
   font-size: 12px;
-  background: var(--icao-bg-color);
+  /* background: #1e5245; */
   border-radius: 3px;
 }
 
@@ -71,7 +73,7 @@
 .timeline {
   width: 100%;
   height: 8px;
-  background-color: var(--sec-bg-color);
+  background-color: #1e5245;
 
   margin-top: 16px;
   position: relative;
@@ -79,7 +81,7 @@
 
 .progress {
   height: 100%;
-  background-color: var(--icao-bg-color);
+  background-color: #3da58a;
 
   /* width: 75%; */
 }

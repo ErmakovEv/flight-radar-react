@@ -70,8 +70,20 @@ function UsersTable() {
   }, []);
 
   return (
-    <>
-      <div style={{ height: 400, width: '100%' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <div
+        style={{
+          height: 400,
+          width: '100%',
+        }}
+      >
         {usersArr ? (
           <DataGrid
             rows={usersArr}
@@ -92,6 +104,13 @@ function UsersTable() {
       </div>
       <div>
         <Button
+          variant="contained"
+          sx={{
+            mt: 3,
+            mb: 2,
+            color: 'black',
+            backgroundColor: 'secondary.main',
+          }}
           onClick={async () => {
             await deleteUsers({
               usersID: rowSelectionModel as number[],
@@ -99,10 +118,10 @@ function UsersTable() {
             await fetchAllProfilesHandler();
           }}
         >
-          Deleted users
+          Delete users
         </Button>
       </div>
-    </>
+    </div>
   );
 }
 

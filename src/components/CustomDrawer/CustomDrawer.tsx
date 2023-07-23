@@ -27,7 +27,7 @@ function CustomDrawer({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: 'var(--sec-bg-color)',
+          backgroundColor: 'primary.light',
         }}
       >
         <Toolbar />
@@ -35,8 +35,7 @@ function CustomDrawer({
           <Paper
             key={obj.dataFlight[0]}
             sx={{
-              backgroundColor: 'var(--main-bg-color)',
-              color: 'var(--main-text-color)',
+              backgroundColor: 'primary.light',
               fontFamily: 'Roboto',
               width: '90%',
               margin: '10px',

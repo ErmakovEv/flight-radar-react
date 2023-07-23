@@ -30,9 +30,10 @@ export default function UserCreater() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          bgcolor: 'background.default',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        <Avatar sx={{ m: 1, backgroundColor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -63,7 +64,12 @@ export default function UserCreater() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{
+              mt: 3,
+              mb: 2,
+              color: 'black',
+              backgroundColor: 'secondary.main',
+            }}
           >
             Create user
           </Button>

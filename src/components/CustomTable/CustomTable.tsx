@@ -146,15 +146,14 @@ export default function CustomPaginationActionsTable({
       component={Paper}
       sx={{
         minWidth: '90%',
-        backgroundColor: 'var(--sec-bg-color)',
-        color: 'var(--main-text-color)',
+        backgroundColor: 'info.main',
       }}
     >
       <Table aria-label="custom pagination table">
         <TableHead>
           <TableRow
             sx={{
-              color: 'var(--icao-bg-color)',
+              color: 'secondary.main',
               fontFamily: 'Roboto',
             }}
           >
@@ -162,8 +161,7 @@ export default function CustomPaginationActionsTable({
           </TableRow>
           <TableRow
             sx={{
-              backgroundColor: 'var(--main-color)',
-              color: 'var(--main-text-color)',
+              backgroundColor: 'secondary.main',
             }}
           >
             <TableCell align="center">Time</TableCell>
@@ -184,7 +182,6 @@ export default function CustomPaginationActionsTable({
                 style={{
                   maxWidth: 30,
                   padding: 5,
-                  color: 'var(--main-text-color)',
                 }}
               >
                 {type
@@ -199,7 +196,6 @@ export default function CustomPaginationActionsTable({
                 style={{
                   maxWidth: 50,
                   padding: 5,
-                  color: 'var(--main-text-color)',
                 }}
               >
                 {row?.flight?.identification.number.default}
@@ -208,7 +204,6 @@ export default function CustomPaginationActionsTable({
                 style={{
                   maxWidth: 85,
                   padding: 5,
-                  color: 'var(--main-text-color)',
                 }}
               >
                 {type
@@ -220,7 +215,6 @@ export default function CustomPaginationActionsTable({
                 style={{
                   maxWidth: 50,
                   padding: 5,
-                  color: 'var(--main-text-color)',
                 }}
               >
                 {row.flight?.airline?.name || 'N/A'}
@@ -229,7 +223,6 @@ export default function CustomPaginationActionsTable({
                 style={{
                   maxWidth: 50,
                   padding: 5,
-                  color: 'var(--main-text-color)',
                 }}
               >
                 {row?.flight?.aircraft.registration}
@@ -238,7 +231,6 @@ export default function CustomPaginationActionsTable({
                 style={{
                   maxWidth: 50,
                   padding: 5,
-                  color: 'var(--main-text-color)',
                 }}
               >
                 {row?.flight?.status.text}
@@ -268,7 +260,6 @@ export default function CustomPaginationActionsTable({
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
-              style={{ color: 'var(--main-color)' }}
             />
           </TableRow>
         </TableFooter>

@@ -45,7 +45,14 @@ function MapLayersTable() {
   }, []);
 
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <div style={{ height: 400, width: '100%' }}>
         {mapLayersArr ? (
           <DataGrid
@@ -67,6 +74,13 @@ function MapLayersTable() {
       </div>
       <div>
         <Button
+          variant="contained"
+          sx={{
+            mt: 3,
+            mb: 2,
+            color: 'black',
+            backgroundColor: 'secondary.main',
+          }}
           onClick={async () => {
             await deleteLayers({
               layers: rowSelectionModel as number[],
@@ -74,10 +88,10 @@ function MapLayersTable() {
             await fetchAllLayersHandler();
           }}
         >
-          Deleted users
+          Delete layers
         </Button>
       </div>
-    </>
+    </div>
   );
 }
 

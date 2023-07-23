@@ -20,7 +20,7 @@ function BottomMenu({
       sx={{
         maxWidth: '100%',
         display: 'flex',
-        backgroundColor: 'var(--main-bg-color)',
+        backgroundColor: 'background.default',
       }}
       className="menu"
     >
@@ -34,7 +34,7 @@ function BottomMenu({
             <ManageSearchIcon
               fontSize="small"
               sx={{
-                color: 'var(--icao-bg-color)',
+                color: 'secondary.dark',
                 margin: '0 auto',
                 padding: 0,
               }}
@@ -46,7 +46,7 @@ function BottomMenu({
             <ViewListIcon
               fontSize="small"
               sx={{
-                color: 'var(--icao-bg-color)',
+                color: 'secondary.dark',
                 margin: '0 auto',
                 padding: 0,
               }}
@@ -58,7 +58,7 @@ function BottomMenu({
             <SettingsIcon
               fontSize="small"
               sx={{
-                color: 'var(--icao-bg-color)',
+                color: 'secondary.dark',
                 margin: '0 auto',
                 padding: 0,
               }}
