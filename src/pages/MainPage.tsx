@@ -1,4 +1,6 @@
+/* eslint-disable no-nested-ternary */
 import { useState, useEffect } from 'react';
+import Skeleton from '@mui/material/Skeleton';
 import MapLayer from '../components/Map/Map';
 import BottomMenu from '../components/BottomMenu/BottomMenu';
 import { useAppSelector } from '../hooks/redux';
@@ -13,6 +15,7 @@ import SheduleModal from '../components/SheduleModal/SheduleModal';
 import SettingsModal from '../components/SettingsModal/SettingsModal';
 import { flights, flightStatus } from '../api/proxy/requests';
 import { IFlightInfoData } from '../api/proxy/types';
+import CustomSceleton from '../components/CustomSceleton/CustomSceleton';
 
 export default function MainPage() {
   const userProfile = useAppSelector((state) => state.auth.profileData.profile);
@@ -29,7 +32,15 @@ export default function MainPage() {
     IFflightStatus[]
   >([]);
 
-  const [viewInPanel, setViewInPanel] = useState<string>('');
+  // const [viewInPanel, setViewInPanel] = useState<string | undefined>('');
+
+  const [selectedFlightID, setSelectedFlightID] = useState<string>('');
+
+  const [flightOnPanel, setFlightOnPanel] = useState<
+    IFflightStatus | undefined
+  >(undefined);
+
+  const [viewSceleton, setViewSceleton] = useState<boolean>(false);
 
   const trailHandler = async (
     isSelected: boolean | undefined,
@@ -83,13 +94,22 @@ export default function MainPage() {
         }
       });
       await Promise.all(promises);
+      if (selectedFlightID) {
+        const displaedInPanelInfo = resultSelectedFlightsArr.find(
+          (obj) => obj.id === selectedFlightID
+        );
+        setFlightOnPanel(displaedInPanelInfo);
+        if (displaedInPanelInfo) {
+          setViewSceleton(false);
+        }
+      }
       setFlightStatusObjArray(resultSelectedFlightsArr);
       setAircraftMap(resultArrFlightInfoData);
     }, 5000);
     return () => {
       clearInterval(intervalID);
     };
-  }, [setAircraftMap, zone]);
+  }, [aircraftMap, setAircraftMap, selectedFlightID, zone]);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
@@ -101,14 +121,26 @@ export default function MainPage() {
     setZone(coordZone);
   };
 
-  const displaedInPanelInfo = flightStatusObjArray.find(
-    (obj) => obj.id === viewInPanel
-  );
+  const selectHandler = (id: string) => {
+    const aircraft = aircraftMap.get(id);
+    const newArr = new Map<string, IMarkerData>([...aircraftMap]);
+    if (aircraft) {
+      if (aircraft.isSelected === false) {
+        aircraft.isSelected = true;
+        setViewSceleton(true);
+      } else {
+        aircraft.isSelected = false;
+      }
+      newArr.set(id, aircraft);
+      setAircraftMap(newArr);
+    }
+  };
 
   return (
     <>
-      {displaedInPanelInfo ? (
-        <FlightInfoPanel flightStatusObj={displaedInPanelInfo} />
+      {viewSceleton ? <CustomSceleton /> : null}
+      {flightOnPanel ? (
+        <FlightInfoPanel flightStatusObj={flightOnPanel} />
       ) : null}
       <BottomMenu
         openerDarwer={(isOpen) => setIsDrawerOpen(isOpen)}
@@ -132,19 +164,19 @@ export default function MainPage() {
               AirportCoord[userProfile?.geoPos as keyof typeof AirportCoord]
                 .center
             }
-            zone={zone}
+            zone={[]}
             aircraftMap={aircraftMap}
-            aircraftMapHandler={(newMap: Map<string, IMarkerData>) =>
-              setAircraftMap(newMap)
-            }
+            aircraftMapHandler={(id: string) => {
+              setSelectedFlightID(id);
+              selectHandler(id);
+            }}
             getZoneCoord={handlerZone}
             getSelectedFlights={(flightStatusInfoArr: IFflightStatus[]) =>
               setFlightStatusObjArray(flightStatusInfoArr)
             }
-            panelViewHandler={(id: string) => setViewInPanel(id)}
             drawerState={isDrawerOpen}
             drawerCloseHandler={() => setIsDrawerOpen(false)}
-            viewInPanelDrawerHandler={(id: string) => setViewInPanel(id)}
+            viewInPanelDrawerHandler={(id: string) => setSelectedFlightID(id)}
             flightStatusObjArray={flightStatusObjArray}
           />
         </>

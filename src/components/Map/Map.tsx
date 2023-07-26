@@ -20,7 +20,7 @@ import { ILayerReq } from '../../api/mapLayer/types';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
 
-import { MyMapComponentProps, MapLayerProps } from './Map.type';
+import { MyMapComponentProps, MapLayerProps, IMarkerData } from './Map.type';
 
 function MyMapComponent({ callback }: MyMapComponentProps) {
   const myMap = useMapEvent('moveend', () => {
@@ -37,26 +37,11 @@ function MapLayer({
   aircraftMap,
   aircraftMapHandler,
   getZoneCoord,
-  getSelectedFlights,
-  panelViewHandler,
   drawerState,
   drawerCloseHandler,
   viewInPanelDrawerHandler,
   flightStatusObjArray,
 }: MapLayerProps) {
-  const markerSelectHandler = async (id: string) => {
-    const aircraft = aircraftMap.get(id);
-    if (aircraft) {
-      if (aircraft.isSelected === false) {
-        panelViewHandler(id);
-      }
-      aircraft.isSelected = !aircraft.isSelected;
-      aircraftMap.delete(id);
-      const newArr = new Map([...aircraftMap]);
-      newArr.set(id, aircraft);
-      aircraftMapHandler(newArr);
-    }
-  };
   const [mapLayers, setMapLayers] = useState<ILayerReq[]>([]);
 
   const userProfile = useAppSelector((state) => state.auth.profileData.profile);
@@ -81,6 +66,8 @@ function MapLayer({
   useEffect(() => {
     mapLayerHandler();
   }, []);
+
+  const markerSelectHandler = (id: string) => aircraftMapHandler(id);
 
   return (
     <MapContainer

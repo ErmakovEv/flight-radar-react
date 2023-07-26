@@ -16,8 +16,9 @@ function FlightMarker({ aircraft, handler, icon }: FlightMarkerProps) {
         position={[aircraft[1].data[1] || 0, aircraft[1].data[2] || 0]}
         eventHandlers={{
           click: () => {
-            if (!aircraft[1].isSelected)
+            if (!aircraft[1].isSelected) {
               map.setView([aircraft[1].data[1] || 0, aircraft[1].data[2] || 0]);
+            }
             handler(aircraft[0]);
           },
         }}

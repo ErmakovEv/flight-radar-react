@@ -150,10 +150,9 @@ export type MapLayerProps = {
   center: number[];
   zone: number[];
   aircraftMap: Map<string, IMarkerData>;
-  aircraftMapHandler: (newMap: Map<string, IMarkerData>) => void;
+  aircraftMapHandler: (id: string) => void;
   getZoneCoord: (coordZone: number[]) => void;
   getSelectedFlights: (flightStatusInfoArr: IFflightStatus[]) => void;
-  panelViewHandler: (id: string) => void;
   drawerState: boolean;
   drawerCloseHandler: (state: boolean) => void;
   viewInPanelDrawerHandler: (id: string) => void;
