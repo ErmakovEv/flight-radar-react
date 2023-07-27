@@ -16,6 +16,9 @@ import { styled } from '@mui/material/styles';
 import { useAppSelector } from '../../hooks/redux';
 import { AirportCoord, mapStyleList } from '../../utils/constants';
 import { setProfile } from '../../api/auth/requests';
+import CustomSnuckbar, {
+  CustomSnuckbarProps,
+} from '../CustomSnackbar/CustomSnackbar';
 
 type SettingsModalProps = {
   openCB: () => void;
@@ -51,7 +54,14 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
   const [radioAirport, setRadioAirport] = useState(userProfile?.geoPos);
   const [radioMapStyle, setMapStyle] = useState(userProfile?.mapType);
 
-  const requestsHandler = async () => {};
+  const [responseMessage, setResponseMessage] = useState<{
+    type: 'info' | 'success' | 'error';
+    message: string;
+  }>({
+    type: 'success',
+    message: '',
+  });
+  const [openSnuckbar, setOpenSnuckbar] = useState(false);
 
   const handleChangeAirport = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRadioAirport((event.target as HTMLInputElement).value);
@@ -61,22 +71,34 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
     setMapStyle(+(event.target as HTMLInputElement).value);
   };
 
-  useEffect(() => {
-    requestsHandler();
-  }, []);
-
   const airportList = Object.keys(AirportCoord);
 
-  const requestNewSettings = (newGeoPos: string, newMapType: number) => {
+  const requestNewSettings = async (newGeoPos: string, newMapType: number) => {
     const param = {
       mapType: newMapType,
       pos: newGeoPos,
     };
-    setProfile(param, userProfile?.email || '');
+    try {
+      // await setProfile(param, 'sad' || '');
+      await setProfile(param, userProfile?.email || '');
+      setResponseMessage({ type: 'success', message: 'Все ок! Перелогинься' });
+      setOpenSnuckbar(true);
+    } catch (error) {
+      setResponseMessage({ type: 'error', message: 'Все плохо' });
+      setOpenSnuckbar(true);
+    }
   };
 
   return (
     <div>
+      {openSnuckbar ? (
+        <CustomSnuckbar
+          type={responseMessage.type}
+          message={responseMessage.message}
+          handleClose={() => setOpenSnuckbar(false)}
+          isOpen={openSnuckbar}
+        />
+      ) : null}
       <Modal
         open={isOpen}
         onClose={closeCB}
@@ -84,18 +106,20 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={{ ...style, width: 350 }}>
-          <Typography sx={{ mb: 3, color: 'secondary.main' }}>
-            User Settings
-          </Typography>
+          <Item sx={{ bgcolor: 'primary.main', mb: 3, p: 1 }}>
+            <Typography sx={{ color: 'secondary.main' }}>
+              User Settings
+            </Typography>
+          </Item>
+
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Item sx={{ bgcolor: 'primary.main' }}>
                 <FormControl>
-                  <FormLabel
-                    id="demo-radio-buttons-group-label"
-                    sx={{ color: 'secondary.main' }}
-                  >
-                    Home Airport
+                  <FormLabel id="demo-radio-buttons-group-label">
+                    <Typography sx={{ mb: 3, color: 'secondary.main' }}>
+                      Home airport
+                    </Typography>
                   </FormLabel>
                   <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
@@ -137,7 +161,9 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
                     id="demo-radio-buttons-group-label"
                     sx={{ color: 'secondary.main' }}
                   >
-                    Card Style
+                    <Typography sx={{ mb: 3, color: 'secondary.main' }}>
+                      Card Style
+                    </Typography>
                   </FormLabel>
                   <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
@@ -181,8 +207,9 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
               backgroundColor: 'secondary.main',
             }}
             variant="contained"
-            onClick={() => {
-              requestNewSettings(radioAirport || '', radioMapStyle || 0);
+            onClick={async () => {
+              await requestNewSettings(radioAirport || '', radioMapStyle || 0);
+              closeCB();
             }}
           >
             Apply
