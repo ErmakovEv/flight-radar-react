@@ -1,13 +1,4 @@
-import {
-  AccordionSummary,
-  Accordion,
-  Typography,
-  Box,
-  AccordionDetails,
-  Divider,
-  Paper,
-  Skeleton,
-} from '@mui/material';
+import { AccordionSummary, Accordion, Box, Skeleton } from '@mui/material';
 
 function CustomSceleton() {
   return (
@@ -38,7 +29,6 @@ function CustomSceleton() {
             </div>
           </div>
         </AccordionSummary>
-        {/* <AccordionDetails></AccordionDetails> */}
       </Accordion>
     </Box>
   );

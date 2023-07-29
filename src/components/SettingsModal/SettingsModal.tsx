@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Modal,
   Box,
@@ -16,9 +16,7 @@ import { styled } from '@mui/material/styles';
 import { useAppSelector } from '../../hooks/redux';
 import { AirportCoord, mapStyleList } from '../../utils/constants';
 import { setProfile } from '../../api/auth/requests';
-import CustomSnuckbar, {
-  CustomSnuckbarProps,
-} from '../CustomSnackbar/CustomSnackbar';
+import CustomSnuckbar from '../CustomSnackbar/CustomSnackbar';
 
 type SettingsModalProps = {
   openCB: () => void;
@@ -79,7 +77,6 @@ function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
       pos: newGeoPos,
     };
     try {
-      // await setProfile(param, 'sad' || '');
       await setProfile(param, userProfile?.email || '');
       setResponseMessage({ type: 'success', message: 'Все ок! Перелогинься' });
       setOpenSnuckbar(true);

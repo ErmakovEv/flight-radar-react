@@ -3,6 +3,7 @@ import { DataGrid, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { fetchAllUsers, deleteUsers } from '../../api/auth/requests';
 import { IUserRes } from '../../api/auth/types';
+import CustomSnuckbar from '../CustomSnackbar/CustomSnackbar';
 
 interface IUserRow {
   id: number;
@@ -46,6 +47,15 @@ function UsersTable() {
   const [rowSelectionModel, setRowSelectionModel] =
     useState<GridRowSelectionModel>([]);
 
+  const [responseMessage, setResponseMessage] = useState<{
+    type: 'info' | 'success' | 'error';
+    message: string;
+  }>({
+    type: 'success',
+    message: '',
+  });
+  const [openSnuckbar, setOpenSnuckbar] = useState(false);
+
   const fetchAllProfilesHandler = async () => {
     const req = await fetchAllUsers();
     const newUserArr = req.data.map((item: IUserRes) => {
@@ -69,59 +79,81 @@ function UsersTable() {
     fetchAllProfilesHandler();
   }, []);
 
+  const deleteUsersHandler = async () => {
+    try {
+      await deleteUsers({
+        usersID: rowSelectionModel as number[],
+      });
+      await fetchAllProfilesHandler();
+      setResponseMessage({
+        type: 'success',
+        message: `Все удалено!`,
+      });
+      setOpenSnuckbar(true);
+    } catch (error) {
+      setResponseMessage({ type: 'error', message: 'Все плохо' });
+      setOpenSnuckbar(true);
+    }
+  };
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
+    <>
+      {openSnuckbar ? (
+        <CustomSnuckbar
+          type={responseMessage.type}
+          message={responseMessage.message}
+          handleClose={() => setOpenSnuckbar(false)}
+          isOpen={openSnuckbar}
+        />
+      ) : null}
       <div
         style={{
-          height: 400,
-          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        {usersArr ? (
-          <DataGrid
-            rows={usersArr}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-            onRowSelectionModelChange={(newRowSelectionModel) => {
-              setRowSelectionModel(newRowSelectionModel);
-            }}
-            rowSelectionModel={rowSelectionModel}
-          />
-        ) : null}
-      </div>
-      <div>
-        <Button
-          variant="contained"
-          sx={{
-            mt: 3,
-            mb: 2,
-            color: 'black',
-            backgroundColor: 'secondary.main',
-          }}
-          onClick={async () => {
-            await deleteUsers({
-              usersID: rowSelectionModel as number[],
-            });
-            await fetchAllProfilesHandler();
+        <div
+          style={{
+            height: 400,
+            width: '100%',
           }}
         >
-          Delete users
-        </Button>
+          {usersArr ? (
+            <DataGrid
+              rows={usersArr}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 },
+                },
+              }}
+              pageSizeOptions={[5, 10]}
+              checkboxSelection
+              onRowSelectionModelChange={(newRowSelectionModel) => {
+                setRowSelectionModel(newRowSelectionModel);
+              }}
+              rowSelectionModel={rowSelectionModel}
+            />
+          ) : null}
+        </div>
+        <div>
+          <Button
+            variant="contained"
+            sx={{
+              mt: 3,
+              mb: 2,
+              color: 'black',
+              backgroundColor: 'secondary.main',
+            }}
+            onClick={deleteUsersHandler}
+          >
+            Delete users
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
