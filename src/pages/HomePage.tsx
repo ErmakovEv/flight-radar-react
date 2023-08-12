@@ -1,19 +1,19 @@
-import { NavLink } from 'react-router-dom';
-import { useAppSelector } from '../hooks/redux';
-import Profile from '../components/Profile';
+import { useState } from 'react';
+import { CssBaseline } from '@mui/material';
+import HomePageHeader from '../components/HomePageHeader/HomePageHeader';
+import PlaceToVisit from '../components/PlaceToVisit/PlaceToVisit';
 import './HomePage.css';
 
-function HomePage() {
-  const isLoggedIn = useAppSelector(
-    (state) => !!state.auth.authData.accessToken
-  );
+function App() {
+  const [animation, setAnimation] = useState(false);
 
   return (
-    <div className="home-page">
-      <h1>HomePage</h1>
-      {isLoggedIn ? <Profile /> : null}
+    <div className="Home">
+      <CssBaseline />
+      <HomePageHeader onAnimationHandler={() => setAnimation(true)} />
+      <PlaceToVisit animation={animation} />
     </div>
   );
 }
 
-export default HomePage;
+export default App;

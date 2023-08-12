@@ -1,4 +1,21 @@
-.home-page {
-  margin-top: 100px;
-  background-color: chartreuse;
+.Home {
+  min-height: 100vh;
+  background-image: url('/assets/card7.jpeg');
+  background-repeat: repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.Header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.place {
+  height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
