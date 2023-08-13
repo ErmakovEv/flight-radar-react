@@ -1,23 +1,25 @@
+const HOST = `https://serverflightradar.onrender.com`;
+
 const Endpoints = {
   AUTH: {
-    LOGIN: 'http://127.0.0.1:3000/api/user/login',
-    REFRECH: 'http://127.0.0.1:3000/api/user/refresh',
-    LOGOUT: 'http://127.0.0.1:3000/api/user/logout',
-    PROFILE: 'http://127.0.0.1:3000/api/setting/get-config',
-    ALLPROFILES: 'http://127.0.0.1:3000/api/user/',
-    SETPROFILE: 'http://127.0.0.1:3000/api/setting/',
-    REGISTRATION: 'http://127.0.0.1:3000/api/user/reg',
+    LOGIN: `${HOST}api/user/login`,
+    REFRECH: `${HOST}/api/user/refresh`,
+    LOGOUT: `${HOST}/api/user/logout`,
+    PROFILE: `${HOST}/api/setting/get-config`,
+    ALLPROFILES: `${HOST}/api/user/`,
+    SETPROFILE: `${HOST}/api/setting/`,
+    REGISTRATION: `${HOST}/api/user/reg`,
   },
   PROXY: {
-    FLIGHTS: 'http://127.0.0.1:3000/api/proxy/flights',
-    ALLAIRPORTS: 'http://127.0.0.1:3000/api/proxy/all-airports',
-    AIRPORT: 'http://127.0.0.1:3000/api/proxy/airport',
-    FLIGHTSTATUS: 'http://127.0.0.1:3000/api/proxy/flight-status',
-    SHEDULE: 'http://127.0.0.1:3000/api/proxy/shedule',
+    FLIGHTS: `${HOST}/api/proxy/flights`,
+    ALLAIRPORTS: `${HOST}/api/proxy/all-airports`,
+    AIRPORT: `${HOST}/api/proxy/airport`,
+    FLIGHTSTATUS: `${HOST}/api/proxy/flight-status`,
+    SHEDULE: `${HOST}/api/proxy/shedule`,
   },
   MAPLAYER: {
-    LAYER: 'http://127.0.0.1:3000/api/layer',
-    DELLAYERS: 'http://127.0.0.1:3000/api/layer/del',
+    LAYER: `${HOST}/api/layer`,
+    DELLAYERS: `${HOST}/api/layer/del`,
   },
 };
 
