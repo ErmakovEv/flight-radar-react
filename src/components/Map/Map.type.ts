@@ -109,8 +109,8 @@ export interface ITimeInfo {
 
 export interface IFflightStatus {
   id: string;
-  aicraft: IArcraftFlightInfo;
-  airlane: IAirLineInfo;
+  aircraft: IArcraftFlightInfo;
+  airline: IAirLineInfo;
   airport: IAirportInfo;
   airspace?: unknown;
   availability: string[];

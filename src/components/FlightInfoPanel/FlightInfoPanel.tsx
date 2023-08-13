@@ -90,12 +90,12 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                 {flightStatusObj?.identification?.number?.default || 'N/A'}
               </span>
               <span className="aircraft-icao">
-                {flightStatusObj?.aicraft?.model?.code || 0}
+                {flightStatusObj?.aircraft?.model?.code || 0}
               </span>
             </div>
             <div className="panel-header__second-level">
               <span className="aviacompany">
-                {flightStatusObj?.airlane?.name}
+                {flightStatusObj?.airline?.name}
               </span>
             </div>
           </div>
@@ -107,8 +107,8 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           <div className="panel-img">
             <img
               src={
-                flightStatusObj?.aicraft?.images?.large
-                  ? flightStatusObj?.aicraft?.images.large[0].src
+                flightStatusObj?.aircraft?.images?.large
+                  ? flightStatusObj?.aircraft?.images.large[0].src
                   : ''
               }
               alt="aircraftImg"
@@ -313,11 +313,11 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                   <Grid className="gridItem" sx={{ padding: '4px' }} item xs>
                     <div className="param">AIRCRAFT TYPE</div>
                     <div className="value">
-                      {flightStatusObj.aicraft?.model?.text || 'N/A'}
+                      {flightStatusObj.aircraft?.model?.text || 'N/A'}
                     </div>
                     <div className="param">REGISTRATION</div>
                     <div className="value">
-                      {flightStatusObj.aicraft?.registration || 'N/A'}
+                      {flightStatusObj.aircraft?.registration || 'N/A'}
                     </div>
                     <div className="param">COUNTRY OF REG.</div>
                     <div className="value">

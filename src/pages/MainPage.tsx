@@ -49,22 +49,21 @@ export default function MainPage() {
   ) => {
     if (isSelected) {
       const flightStatusInfo = await flightStatus(id);
-      if (flightStatusInfo) {
-        resultSelectedFlightsArr.push({
-          id,
-          aicraft: flightStatusInfo.data.aicraft,
-          airlane: flightStatusInfo.data.airlane,
-          airport: flightStatusInfo.data.airport,
-          airspace: flightStatusInfo.data.airspace,
-          availability: flightStatusInfo.data.availability,
-          ems: flightStatusInfo.data.ems,
-          firstTimestamp: flightStatusInfo.data.firstTimestamp,
-          identification: flightStatusInfo.data.identification,
-          time: flightStatusInfo.data.time,
-          dataFlight,
-          trail: flightStatusInfo.data.trail,
-        });
-      }
+
+      resultSelectedFlightsArr.push({
+        id,
+        aircraft: flightStatusInfo.data.aircraft,
+        airline: flightStatusInfo.data.airline,
+        airport: flightStatusInfo.data.airport,
+        airspace: flightStatusInfo.data.airspace,
+        availability: flightStatusInfo.data.availability,
+        ems: flightStatusInfo.data.ems,
+        firstTimestamp: flightStatusInfo.data.firstTimestamp,
+        identification: flightStatusInfo.data.identification,
+        time: flightStatusInfo.data.time,
+        dataFlight,
+        trail: flightStatusInfo.data.trail,
+      });
 
       return flightStatusInfo.data.trail?.map((obj: ITrail) => [
         obj.lat,

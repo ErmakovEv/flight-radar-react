@@ -32,7 +32,6 @@ function CustomDrawer({
       >
         <Toolbar />
         {flightStatusObjArray.map((obj) => {
-          console.log(obj);
           return (
             <Paper
               key={obj.dataFlight[0]}
@@ -54,21 +53,17 @@ function CustomDrawer({
               <div className="panel-header">
                 <div className="panel-header__first-level">
                   <span className="call-sign">
-                    {obj.identification ? obj.identification.callsign : ''}
+                    {obj.identification.callsign}
                   </span>
                   <span className="flight-number">
-                    {obj.identification
-                      ? obj.identification.number.default
-                      : ''}
+                    {obj.identification.number.default}
                   </span>
                   <span className="aircraft-icao">
-                    {obj.aicraft ? obj.aicraft.model?.code : ''}
+                    {obj.aircraft.model?.code}
                   </span>
                 </div>
                 <div className="panel-header__second-level">
-                  <span className="aviacompany">
-                    {obj.airlane ? obj.airlane.name : ''}
-                  </span>
+                  <span className="aviacompany">{obj.airline.name}</span>
                 </div>
               </div>
             </Paper>
