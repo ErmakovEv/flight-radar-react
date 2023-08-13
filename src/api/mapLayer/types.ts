@@ -1,4 +1,4 @@
-export default interface ILayerRes {
+export interface ILayerRes {
   id?: number;
   name: string;
   mapLayerCoord: Array<Array<number>> | Array<Array<Array<string>>>;

@@ -31,7 +31,7 @@ function FlightMarker({ aircraft, handler, icon }: FlightMarkerProps) {
           <div>{`${aircraft[1].data[8]}`}</div>
         </Tooltip>
       </Marker>
-      {aircraft[1].trail ? <Polyline positions={aircraft[1].trail} /> : null}
+      {aircraft[1].path ? <Polyline positions={aircraft[1].path} /> : null}
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { motion } from 'framer-motion';
 import { AppBar, Button, Toolbar, Switch, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';

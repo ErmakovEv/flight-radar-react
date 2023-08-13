@@ -25,12 +25,6 @@ export default function MapLayerCreater() {
     const polygon = layer.toGeoJSON();
     setMapLayer(polygon.geometry.coordinates);
   };
-  const onEditedDraw = (e: DrawEvents.Edited) => {
-    console.log(e);
-  };
-  const onDeletedDraw = (e: DrawEvents.Deleted) => {
-    console.log(e);
-  };
 
   const buttonHandler = async () => {
     const testLayer = {
@@ -71,8 +65,8 @@ export default function MapLayerCreater() {
           <EditControl
             position="bottomleft"
             onCreated={onCreateDraw}
-            onEdited={onEditedDraw}
-            onDeleted={onDeletedDraw}
+            onEdited={() => {}}
+            onDeleted={() => {}}
             draw={{
               rectangle: false,
               polyline: false,

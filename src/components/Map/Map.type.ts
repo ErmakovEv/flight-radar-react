@@ -1,6 +1,6 @@
 import { LatLngExpression } from 'leaflet';
+// eslint-disable-next-line import/no-cycle
 import { IFlightInfoData } from '../../api/proxy/types';
-import ILayerRes from '../../api/mapLayer/types';
 
 export type MyMapComponentProps = {
   callback: (coordZone: number[]) => void;
@@ -27,7 +27,7 @@ export interface IArcraftFlightInfo {
   countryId: number;
   hex: string;
   images: IAircraftImages;
-  model: IAircraftModel;
+  model?: IAircraftModel;
   msn: null;
   registration: string;
 }
@@ -119,12 +119,13 @@ export interface IFflightStatus {
   identification: IIdentificationInfo;
   time: ITimeInfo;
   dataFlight: IFlightInfoData;
+  trail: ITrail[];
 }
 
 export interface IMarkerData {
   data: IFlightInfoData;
   isSelected: boolean;
-  trail: Array<Array<LatLngExpression>> | null;
+  path: Array<Array<LatLngExpression>> | null;
 }
 
 export interface ITrail {

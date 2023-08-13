@@ -3,7 +3,6 @@ import {
   TileLayer,
   useMapEvent,
   Polygon,
-  Tooltip,
   Popup,
 } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
@@ -20,7 +19,7 @@ import { ILayerReq } from '../../api/mapLayer/types';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
 
-import { MyMapComponentProps, MapLayerProps, IMarkerData } from './Map.type';
+import { MyMapComponentProps, MapLayerProps } from './Map.type';
 
 function MyMapComponent({ callback }: MyMapComponentProps) {
   const myMap = useMapEvent('moveend', () => {
@@ -48,18 +47,10 @@ function MapLayer({
 
   const mapLayerHandler = async () => {
     const res = await fetchLayers();
-    const newMapLayerArr = res.data.map(
-      (item: {
-        createdAt: string;
-        id: number;
-        mapLayerCoord: string[][];
-        name: string;
-        updatedAt: string;
-      }) => {
-        const { id, mapLayerCoord, name } = item;
-        return { mapLayerCoord, name, id };
-      }
-    );
+    const newMapLayerArr = res.data.map((item) => {
+      const { id, mapLayerCoord, name } = item;
+      return { mapLayerCoord, name, id };
+    });
     setMapLayers(newMapLayerArr);
   };
 

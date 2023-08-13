@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { IAircraftImages } from '../Map/Map.type';
 
 interface AirportInfoDetailsPosition {

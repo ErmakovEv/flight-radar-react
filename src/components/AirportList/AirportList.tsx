@@ -24,9 +24,9 @@ const AirportsList = memo(function AirportsList() {
   const [airports, setAirports] = useState<IAirports[]>([]);
 
   useEffect(() => {
-    allAirports()
-      .then((res) => res)
-      .then((res) => setAirports(res.data.rows));
+    allAirports().then((res) => {
+      setAirports(res.data.rows);
+    });
   }, []);
 
   return airports.map((airportMarker) => {

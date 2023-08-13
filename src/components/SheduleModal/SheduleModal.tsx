@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Modal, Box } from '@mui/material';
+import { Modal, Box, Typography } from '@mui/material';
 import { useAppSelector } from '../../hooks/redux';
 import { shedule } from '../../api/proxy/requests';
 import CustomPaginationActionsTable from '../CustomTable/CustomTable';
 import ISheduleRow from './SheduleModal.types';
 
 type SheduleModalProps = {
-  openCB: () => void;
   closeCB: () => void;
   isOpen: boolean;
 };
@@ -27,26 +26,30 @@ const style = {
   zIndex: 1000,
 };
 
-function SheduleModal({ openCB, closeCB, isOpen }: SheduleModalProps) {
+function SheduleModal({ closeCB, isOpen }: SheduleModalProps) {
   const userProfile = useAppSelector((state) => state.auth.profileData.profile);
   const [arrivalArr, setArrivalArr] = useState<Partial<ISheduleRow>[]>();
   const [departureArr, setDepartureArr] = useState<Partial<ISheduleRow>[]>();
+  const [airportName, setAirportName] = useState<string>('');
 
-  const requestsHandler = async () => {
-    if (userProfile?.geoPos) {
-      const req = await shedule(userProfile?.geoPos);
+  const requestsHandler = async (position: string) => {
+    const req = await shedule(position);
+    if (req) {
       setArrivalArr(
         req.data.result.response.airport.pluginData.schedule.arrivals.data
       );
       setDepartureArr(
         req.data.result.response.airport.pluginData.schedule.departures.data
       );
+      setAirportName(req.data.result.response.airport.pluginData.details.name);
     }
   };
 
   useEffect(() => {
-    requestsHandler();
-  }, []);
+    if (userProfile?.geoPos) {
+      requestsHandler(userProfile?.geoPos);
+    }
+  }, [userProfile?.geoPos]);
 
   return (
     <div>
@@ -57,6 +60,8 @@ function SheduleModal({ openCB, closeCB, isOpen }: SheduleModalProps) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <Typography variant="h6">{airportName || ''}</Typography>
+
           <Box sx={{ margin: 1 }}>
             {arrivalArr ? (
               <CustomPaginationActionsTable rows={arrivalArr} type />

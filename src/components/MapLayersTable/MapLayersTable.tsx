@@ -5,30 +5,23 @@ import { fetchLayers, deleteLayers } from '../../api/mapLayer/requests';
 import { ILayerReq } from '../../api/mapLayer/types';
 import CustomSnuckbar from '../CustomSnackbar/CustomSnackbar';
 
-interface ILayerRow {
-  id: number;
-  name: string;
-  dateReg: string;
-  dateUpd: string;
-}
-
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
   { field: 'name', headerName: 'Name', width: 130 },
   {
-    field: 'dateReg',
+    field: 'createdAt',
     headerName: 'Reg Data',
     width: 130,
   },
   {
-    field: 'dateUpd',
+    field: 'updatedAt',
     headerName: 'Upd Data',
     width: 130,
   },
 ];
 
 function MapLayersTable() {
-  const [mapLayersArr, setMapLayersArr] = useState<ILayerRow[]>([]);
+  const [mapLayersArr, setMapLayersArr] = useState<ILayerReq[]>([]);
   const [rowSelectionModel, setRowSelectionModel] =
     useState<GridRowSelectionModel>([]);
 
@@ -43,10 +36,7 @@ function MapLayersTable() {
 
   const fetchAllLayersHandler = async () => {
     const req = await fetchLayers();
-    const newLayersArr = req.data.map((item: ILayerReq) => {
-      const { id, name, createdAt, updatedAt } = item;
-      return { id, name, dateReg: createdAt, dateUpd: updatedAt };
-    });
+    const newLayersArr = [...req.data];
     setMapLayersArr(newLayersArr);
   };
 

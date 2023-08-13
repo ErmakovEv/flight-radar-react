@@ -1,6 +1,5 @@
-/* eslint-disable no-nested-ternary */
 import { useState, useEffect } from 'react';
-import Skeleton from '@mui/material/Skeleton';
+import { LatLngExpression } from 'leaflet';
 import MapLayer from '../components/Map/Map';
 import BottomMenu from '../components/BottomMenu/BottomMenu';
 import { useAppSelector } from '../hooks/redux';
@@ -50,20 +49,24 @@ export default function MainPage() {
   ) => {
     if (isSelected) {
       const flightStatusInfo = await flightStatus(id);
-      resultSelectedFlightsArr.push({
-        id,
-        aicraft: flightStatusInfo.data.aircraft,
-        airlane: flightStatusInfo.data.airline,
-        airport: flightStatusInfo.data.airport,
-        airspace: flightStatusInfo.data.airspace,
-        availability: flightStatusInfo.data.availability,
-        ems: flightStatusInfo.data.ems,
-        firstTimestamp: flightStatusInfo.data.firstTimestamp,
-        identification: flightStatusInfo.data.identification,
-        time: flightStatusInfo.data.time,
-        dataFlight,
-      });
-      return flightStatusInfo.data.trail.map((obj: ITrail) => [
+      if (flightStatusInfo) {
+        resultSelectedFlightsArr.push({
+          id,
+          aicraft: flightStatusInfo.data.aicraft,
+          airlane: flightStatusInfo.data.airlane,
+          airport: flightStatusInfo.data.airport,
+          airspace: flightStatusInfo.data.airspace,
+          availability: flightStatusInfo.data.availability,
+          ems: flightStatusInfo.data.ems,
+          firstTimestamp: flightStatusInfo.data.firstTimestamp,
+          identification: flightStatusInfo.data.identification,
+          time: flightStatusInfo.data.time,
+          dataFlight,
+          trail: flightStatusInfo.data.trail,
+        });
+      }
+
+      return flightStatusInfo.data.trail?.map((obj: ITrail) => [
         obj.lat,
         obj.lng,
       ]);
@@ -79,16 +82,19 @@ export default function MainPage() {
       const promises = Object.entries(res.data).map(async ([key, value]) => {
         const lastDataAircraft = aircraftMap.get(key);
         if (typeof value !== 'number') {
-          const trail = await trailHandler(
+          const path = await trailHandler(
             lastDataAircraft?.isSelected,
             key,
             resultSelectedFlightsArr,
             value
           );
+          const latLngData: LatLngExpression[][] | null = path as
+            | LatLngExpression[][]
+            | null;
           const newObj: IMarkerData = {
             data: value,
             isSelected: lastDataAircraft?.isSelected || false,
-            trail,
+            path: latLngData,
           };
           resultArrFlightInfoData.set(key, newObj);
         }
@@ -151,12 +157,10 @@ export default function MainPage() {
         <>
           <SheduleModal
             closeCB={() => setOpenSheduleModal(false)}
-            openCB={() => setOpenSheduleModal(true)}
             isOpen={openSheduleModal}
           />
           <SettingsModal
             closeCB={() => setOpenSettingsModal(false)}
-            openCB={() => setOpenSettingsModal(true)}
             isOpen={openSettingsModal}
           />
           <MapLayer

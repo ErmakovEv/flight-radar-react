@@ -19,7 +19,6 @@ import { setProfile } from '../../api/auth/requests';
 import CustomSnuckbar from '../CustomSnackbar/CustomSnackbar';
 
 type SettingsModalProps = {
-  openCB: () => void;
   closeCB: () => void;
   isOpen: boolean;
 };
@@ -47,7 +46,7 @@ const style = {
   zIndex: 1000,
 };
 
-function SettingsModal({ openCB, closeCB, isOpen }: SettingsModalProps) {
+function SettingsModal({ closeCB, isOpen }: SettingsModalProps) {
   const userProfile = useAppSelector((state) => state.auth.profileData.profile);
   const [radioAirport, setRadioAirport] = useState(userProfile?.geoPos);
   const [radioMapStyle, setMapStyle] = useState(userProfile?.mapType);

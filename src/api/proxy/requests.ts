@@ -1,22 +1,25 @@
 import { AxiosPromise } from 'axios';
 import Endpoints from '../endpoints';
 import axiosInstance from '../instanceAxios';
-import { IFlightInfo } from './types';
+import { IFlightInfo, IShedule, IAirport, IAirports } from './types';
+import { IFflightStatus } from '../../components/Map/Map.type';
 
 export const flights = (bounds: number[]): AxiosPromise<IFlightInfo> =>
   axiosInstance.get(`${Endpoints.PROXY.FLIGHTS}/${bounds.join()}`);
 
-export const allAirports = (): AxiosPromise<any> =>
+export const allAirports = (): AxiosPromise<IAirports> =>
   axiosInstance.get(Endpoints.PROXY.ALLAIRPORTS);
 
-export const airport = (airportCode: string): AxiosPromise<any> => {
+export const airport = (airportCode: string): AxiosPromise<IAirport> => {
   return axiosInstance.get(`${Endpoints.PROXY.AIRPORT}/${airportCode}`);
 };
 
-export const flightStatus = (flightId: string): AxiosPromise<any> => {
+export const flightStatus = (
+  flightId: string
+): AxiosPromise<IFflightStatus> => {
   return axiosInstance.get(`${Endpoints.PROXY.FLIGHTSTATUS}/${flightId}`);
 };
 
-export const shedule = (airportCode: string): AxiosPromise<any> => {
+export const shedule = (airportCode: string): AxiosPromise<IShedule> => {
   return axiosInstance.get(`${Endpoints.PROXY.SHEDULE}/${airportCode}`);
 };

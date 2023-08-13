@@ -128,7 +128,7 @@ export default function CustomPaginationActionsTable({
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPage(newPage);
@@ -157,7 +157,9 @@ export default function CustomPaginationActionsTable({
               fontFamily: 'Roboto',
             }}
           >
-            {type ? <FlightLandIcon /> : <FlightTakeoffIcon />}
+            <TableCell>
+              {type ? <FlightLandIcon /> : <FlightTakeoffIcon />}
+            </TableCell>
           </TableRow>
           <TableRow
             sx={{

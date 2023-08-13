@@ -29,11 +29,11 @@ export const setProfile = (
 ): AxiosPromise<IProfileRes> =>
   axiosInstance.post(`${Endpoints.AUTH.SETPROFILE}/${email}`, params);
 
-export const fetchAllUsers = (): AxiosPromise<any> =>
+export const fetchAllUsers = (): AxiosPromise<IUserRes[]> =>
   axiosInstance.get(Endpoints.AUTH.ALLPROFILES);
 
-export const deleteUsers = (params: { usersID: number[] }): AxiosPromise<any> =>
+export const deleteUsers = (params: { usersID: number[] }): AxiosPromise =>
   axiosInstance.post(Endpoints.AUTH.ALLPROFILES, params);
 
-export const regUser = (params: IRegReq): AxiosPromise<any> =>
+export const regUser = (params: IRegReq): AxiosPromise<ILoginReq> =>
   axiosInstance.post(Endpoints.AUTH.REGISTRATION, params);

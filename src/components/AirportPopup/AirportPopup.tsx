@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Divider } from '@mui/material';
 import MuiGrid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
@@ -16,21 +16,19 @@ const Grid = styled(MuiGrid)(({ theme }) => ({
 function AirportPopup({ airportCode }: { airportCode: string }) {
   const [airportInfo, setAirportInfo] = useState<AirportInfo>();
 
-  const airportDataHandler = async () => {
+  const airportDataHandler = useCallback(async () => {
     const airportRes = await airport(airportCode);
-    if (airportRes)
-      setAirportInfo(airportRes.data.result.response.airport.pluginData);
-  };
+    if (airportRes) {
+      return airportRes;
+    }
+    return null;
+  }, [airportCode]);
 
   useEffect(() => {
-    airportDataHandler();
-  }, []);
-
-  if (airportInfo) {
-    console.log(airportInfo);
-  }
-
-  // const nameAirport = airportInfo.details.name || 'N/A';
+    airportDataHandler().then((res) => {
+      if (res) setAirportInfo(res.data.result.response.airport.pluginData);
+    });
+  }, [airportDataHandler]);
 
   const handleTimeOffset = (offset: number) => {
     const timestamp = Date.now();
