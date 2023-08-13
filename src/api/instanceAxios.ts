@@ -2,11 +2,10 @@ import axios, { AxiosError } from 'axios';
 import store from '../store/store';
 // eslint-disable-next-line import/no-cycle
 import { getAccessToken, logoutUser } from '../store/reducers/actionCreators';
-
-import Endpoints from './endpoints';
+import Endpoints, { HOST } from './endpoints';
 
 const axiosInstance = axios.create({
-  baseURL: 'localhost:3000',
+  baseURL: HOST,
   withCredentials: true,
 });
 const urlsSkipAuth = [
