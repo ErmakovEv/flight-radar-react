@@ -8,6 +8,7 @@ const axiosInstance = axios.create({
   baseURL: HOST,
   withCredentials: true,
 });
+
 const urlsSkipAuth = [
   Endpoints.AUTH.LOGIN,
   Endpoints.AUTH.REFRECH,

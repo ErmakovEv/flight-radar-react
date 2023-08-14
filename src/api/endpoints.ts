@@ -1,4 +1,5 @@
-export const HOST = `https://serverflightradar.onrender.com`;
+export const HOST = import.meta.env.VITE_BASE_URL;
+// export const HOST = `https://serverflightradar.onrender.com`;
 
 const Endpoints = {
   AUTH: {
