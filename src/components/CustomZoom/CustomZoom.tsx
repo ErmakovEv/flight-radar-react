@@ -17,7 +17,7 @@ function CustomZoom({ home }: { home: number[] }) {
           onClick={() => {
             map.setView(home as LatLngExpression);
           }}
-          sx={{ color: 'var(--icao-bg-color)' }}
+          sx={{ color: 'primary.main' }}
         />
       ),
       name: 'Home',
@@ -25,7 +25,7 @@ function CustomZoom({ home }: { home: number[] }) {
     {
       icon: (
         <RemoveCircleIcon
-          sx={{ color: 'var(--icao-bg-color)' }}
+          sx={{ color: 'primary.main' }}
           onClick={() => map.zoomOut()}
         />
       ),
@@ -34,7 +34,7 @@ function CustomZoom({ home }: { home: number[] }) {
     {
       icon: (
         <AddCircleIcon
-          sx={{ color: 'var(--icao-bg-color)' }}
+          sx={{ color: 'primary.main' }}
           onClick={() => map.zoomIn()}
         />
       ),
@@ -49,13 +49,12 @@ function CustomZoom({ home }: { home: number[] }) {
           height: 320,
           transform: 'translateZ(0px)',
           flexGrow: 1,
-          color: 'secondary.dark',
+          color: 'primary.main',
         }}
       >
         <SpeedDial
           FabProps={{
             className: 'SpeedDial',
-            sx: { backgroundColor: 'background.default' },
             color: 'inherit',
           }}
           ariaLabel="SpeedDial openIcon example"

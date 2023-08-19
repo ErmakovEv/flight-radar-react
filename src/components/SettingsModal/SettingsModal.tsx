@@ -24,7 +24,7 @@ type SettingsModalProps = {
 };
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: 'var(--sec-bg-color)',
+  backgroundColor: 'background.default',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
@@ -39,7 +39,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   color: 'info.dark',
-  bgcolor: 'primary.light',
+  bgcolor: 'background.default',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
@@ -102,18 +102,16 @@ function SettingsModal({ closeCB, isOpen }: SettingsModalProps) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={{ ...style, width: 350 }}>
-          <Item sx={{ bgcolor: 'primary.main', mb: 3, p: 1 }}>
-            <Typography sx={{ color: 'secondary.main' }}>
-              User Settings
-            </Typography>
-          </Item>
+          <Typography sx={{ color: 'primary.main', mb: 3 }}>
+            User Settings
+          </Typography>
 
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <Item sx={{ bgcolor: 'primary.main' }}>
+              <Item sx={{ bgcolor: 'background.default' }}>
                 <FormControl>
                   <FormLabel id="demo-radio-buttons-group-label">
-                    <Typography sx={{ mb: 3, color: 'secondary.main' }}>
+                    <Typography sx={{ mb: 3, color: 'primary.main' }}>
                       Home airport
                     </Typography>
                   </FormLabel>
@@ -130,18 +128,18 @@ function SettingsModal({ closeCB, isOpen }: SettingsModalProps) {
                         control={
                           <Radio
                             sx={{
-                              color: 'secondary.main',
+                              color: 'primary.main',
                               '&.Mui-checked': {
-                                color: 'secondary.main',
+                                color: 'primary.main',
                               },
                             }}
                           />
                         }
                         label={item}
                         sx={{
-                          color: 'secondary.main',
+                          color: 'primary.main',
                           '&.Mui-checked': {
-                            color: 'secondary.main',
+                            color: 'primary.main',
                           },
                         }}
                       />
@@ -151,13 +149,13 @@ function SettingsModal({ closeCB, isOpen }: SettingsModalProps) {
               </Item>
             </Grid>
             <Grid item xs={6}>
-              <Item sx={{ bgcolor: 'primary.main' }}>
+              <Item sx={{ bgcolor: 'background.default' }}>
                 <FormControl>
                   <FormLabel
                     id="demo-radio-buttons-group-label"
-                    sx={{ color: 'secondary.main' }}
+                    sx={{ color: 'primary.main' }}
                   >
-                    <Typography sx={{ mb: 3, color: 'secondary.main' }}>
+                    <Typography sx={{ mb: 3, color: 'primary.main' }}>
                       Card Style
                     </Typography>
                   </FormLabel>
@@ -174,18 +172,18 @@ function SettingsModal({ closeCB, isOpen }: SettingsModalProps) {
                         control={
                           <Radio
                             sx={{
-                              color: 'secondary.main',
+                              color: 'primary.main',
                               '&.Mui-checked': {
-                                color: 'secondary.main',
+                                color: 'primary.main',
                               },
                             }}
                           />
                         }
                         label={item[0]}
                         sx={{
-                          color: 'secondary.main',
+                          color: 'primary.main',
                           '&.Mui-checked': {
-                            color: 'secondary.main',
+                            color: 'primary.main',
                           },
                         }}
                       />

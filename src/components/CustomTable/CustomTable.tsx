@@ -15,8 +15,8 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { TableHead } from '@mui/material';
-import FlightLandIcon from '@mui/icons-material/FlightLand';
-import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import ISheduleRow from '../SheduleModal/SheduleModal.types';
 
 interface TablePaginationActionsProps {
@@ -123,7 +123,8 @@ export default function CustomPaginationActionsTable({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  // Avoid a layout jump when reaching the last page with empty rows.
+  const matches = useMediaQuery('(min-width:600px)');
+
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -153,16 +154,6 @@ export default function CustomPaginationActionsTable({
         <TableHead>
           <TableRow
             sx={{
-              color: 'secondary.main',
-              fontFamily: 'Roboto',
-            }}
-          >
-            <TableCell>
-              {type ? <FlightLandIcon /> : <FlightTakeoffIcon />}
-            </TableCell>
-          </TableRow>
-          <TableRow
-            sx={{
               backgroundColor: 'secondary.main',
             }}
           >
@@ -170,7 +161,7 @@ export default function CustomPaginationActionsTable({
             <TableCell align="center">Flight</TableCell>
             <TableCell align="center">{type ? 'From' : 'To'}</TableCell>
             <TableCell align="center">Airline</TableCell>
-            <TableCell align="center">Aircraft</TableCell>
+            {/* <TableCell align="center">Aircraft</TableCell> */}
             <TableCell align="center">Status</TableCell>
           </TableRow>
         </TableHead>
@@ -182,8 +173,9 @@ export default function CustomPaginationActionsTable({
             <TableRow key={row?.flight?.identification.row}>
               <TableCell
                 style={{
-                  maxWidth: 30,
-                  padding: 5,
+                  maxWidth: `${matches ? '40' : '20'}`,
+                  padding: 0,
+                  margin: 0,
                 }}
               >
                 {type
@@ -196,16 +188,18 @@ export default function CustomPaginationActionsTable({
               </TableCell>
               <TableCell
                 style={{
-                  maxWidth: 50,
-                  padding: 5,
+                  maxWidth: `${matches ? '30' : '20'}`,
+                  padding: 0,
+                  margin: 0,
                 }}
               >
                 {row?.flight?.identification.number.default}
               </TableCell>
               <TableCell
                 style={{
-                  maxWidth: 85,
-                  padding: 5,
+                  maxWidth: `${matches ? '40' : '20'}`,
+                  padding: 0,
+                  margin: 0,
                 }}
               >
                 {type
@@ -215,24 +209,27 @@ export default function CustomPaginationActionsTable({
               </TableCell>
               <TableCell
                 style={{
-                  maxWidth: 50,
-                  padding: 5,
+                  maxWidth: `${matches ? '25' : '20'}`,
+                  padding: 0,
+                  margin: 0,
                 }}
               >
                 {row.flight?.airline?.name || 'N/A'}
               </TableCell>
-              <TableCell
+              {/* <TableCell
                 style={{
-                  maxWidth: 50,
-                  padding: 5,
+                  maxWidth: 35,
+                  padding: 0,
+                  margin: 0,
                 }}
               >
                 {row?.flight?.aircraft.registration}
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 style={{
-                  maxWidth: 50,
-                  padding: 5,
+                  maxWidth: `${matches ? '55' : '30'}`,
+                  padding: 0,
+                  margin: 0,
                 }}
               >
                 {row?.flight?.status.text}
@@ -248,8 +245,8 @@ export default function CustomPaginationActionsTable({
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={6}
+              rowsPerPageOptions={[5]}
+              colSpan={5}
               count={rows.length}
               rowsPerPage={rowsPerPage}
               page={page}

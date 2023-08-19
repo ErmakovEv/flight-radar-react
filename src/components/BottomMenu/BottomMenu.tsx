@@ -1,4 +1,10 @@
-import { Paper, MenuList, MenuItem, ListItemIcon } from '@mui/material';
+import {
+  Paper,
+  MenuList,
+  MenuItem,
+  ListItemIcon,
+  IconButton,
+} from '@mui/material';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -34,7 +40,7 @@ function BottomMenu({
             <ManageSearchIcon
               fontSize="small"
               sx={{
-                color: 'secondary.dark',
+                color: 'primary.main',
                 margin: '0 auto',
                 padding: 0,
               }}
@@ -46,7 +52,7 @@ function BottomMenu({
             <ViewListIcon
               fontSize="small"
               sx={{
-                color: 'secondary.dark',
+                color: 'primary.main',
                 margin: '0 auto',
                 padding: 0,
               }}
@@ -58,7 +64,7 @@ function BottomMenu({
             <SettingsIcon
               fontSize="small"
               sx={{
-                color: 'secondary.dark',
+                color: 'primary.main',
                 margin: '0 auto',
                 padding: 0,
               }}

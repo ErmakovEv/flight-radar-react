@@ -1,10 +1,18 @@
+import { Box, Button, Container, Paper, Typography } from '@mui/material';
+import { useState } from 'react';
 import HomePageCard from '../HomePageCard/HomePageCard';
+import HomeCarousel from '../HomeCarousel/HomeCarousel';
 
 function PlaceToVisit({ animation }: { animation: boolean }) {
+  const [activeStep, setActiveStep] = useState(0);
   return (
     <div className="place" id="place-to-visit">
-      <HomePageCard checked={animation} />
-      <HomePageCard checked={animation} />
+      <HomeCarousel
+        nextCB={() => setActiveStep(activeStep + 1)}
+        prevCB={() => setActiveStep(activeStep - 1)}
+        activeStep={activeStep}
+      />
+      <HomePageCard step={activeStep} checked={animation} />
     </div>
   );
 }

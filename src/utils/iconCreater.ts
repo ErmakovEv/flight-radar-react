@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import aircraftIcons from './airplane_icons.json';
-import yellowSprite from '../img/t-sprite_c-yellow_w-30_s-yes.png';
+import yellowSprite from '../img/t-sprite_c-blue_w-30_s-yes.png';
 import redSprite from '../img/t-sprite_c-red_w-30_s-yes.png';
 
 interface IMarkerFrame {

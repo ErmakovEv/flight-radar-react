@@ -14,7 +14,7 @@ function CustomSceleton() {
           aria-controls="panel1a-content"
           id="panel1a-header"
           sx={{
-            backgroundColor: 'primary.light',
+            backgroundColor: 'background.default',
             color: 'info.dark',
             width: 300,
             height: 64,

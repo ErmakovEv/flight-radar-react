@@ -1,7 +1,6 @@
 .custom-zoom-container {
   position: fixed;
   z-index: 1000;
-  bottom: 5%;
-  right: 5%;
-  background-color: red;
+  bottom: 70px;
+  right: 2%;
 }

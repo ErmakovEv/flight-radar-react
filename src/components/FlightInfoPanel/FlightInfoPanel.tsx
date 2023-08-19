@@ -69,13 +69,13 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
     >
       <Accordion>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon sx={{ color: 'secondary.main' }} />}
+          expandIcon={<ExpandMoreIcon sx={{ color: 'info.main' }} />}
           className="accordion-summary"
           aria-controls="panel1a-content"
           id="panel1a-header"
           sx={{
-            backgroundColor: 'primary.light',
-            color: 'info.dark',
+            backgroundColor: 'background.default',
+            color: 'info.light',
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
@@ -83,9 +83,17 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
         >
           <div className="panel-header">
             <div className="panel-header__first-level">
-              <span className="call-sign" style={{ color: 'secondary.dark' }}>
+              <Box
+                sx={{
+                  display: 'inline',
+                  mr: 3,
+                  p: '1px',
+                  borderRadius: '3px',
+                  backgroundColor: 'primary.main',
+                }}
+              >
                 {flightStatusObj?.identification?.callsign || 'N/A'}
-              </span>
+              </Box>
               <span className="flight-number">
                 {flightStatusObj?.identification?.number?.default || 'N/A'}
               </span>
@@ -101,7 +109,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           </div>
         </AccordionSummary>
         <AccordionDetails
-          sx={{ backgroundColor: 'primary.main', padding: 1 }}
+          sx={{ backgroundColor: 'background.default', padding: 1 }}
           className="accordion-details"
         >
           <div className="panel-img">
@@ -118,7 +126,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           <div className="panel-shedule">
             <Paper
               sx={{
-                backgroundColor: 'primary.light',
+                backgroundColor: 'background.default',
               }}
             >
               <Grid container>
@@ -211,19 +219,20 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           </div>
           <Paper
             sx={{
-              backgroundColor: 'primary.light',
-              color: 'var(--main-text-color)',
+              backgroundColor: 'background.default',
+              // color: 'var(--main-text-color)',
             }}
           >
             <div className="panel-timeline-container">
-              <div className="timeline">
-                <div
+              <Box className="timeline" style={{ background: '#215f7b' }}>
+                <Box
                   className="progress"
                   style={{
                     width: `${getPositionProgressIcon(
                       flightStatusObj.time?.estimated?.arrival || 0,
                       flightStatusObj.time?.real?.departure || 0
                     )}%`,
+                    backgroundColor: '#239fd8',
                   }}
                 >
                   <AirplanemodeActiveIcon
@@ -235,18 +244,11 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
                           flightStatusObj.time?.real?.departure || 0
                         ) - 5
                       }%`,
+                      color: 'info.light',
                     }}
                   />
-                </div>
-              </div>
-              {/* <div className="panel-timeline-info"> */}
-              {/* <div className="panel-timeline-info__elapsed">
-                  606 km, 00:49 ago
-                </div>
-                <div className="panel-timeline-info__remaining">
-                  1,728 km, in 02:10
-                </div> */}
-              {/* </div> */}
+                </Box>
+              </Box>
             </div>
           </Paper>
 
@@ -254,23 +256,20 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
             sx={{
               padding: 0,
               marginTop: '10px',
-              backgroundColor: 'primary.light',
+              backgroundColor: 'background.default',
             }}
           >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon sx={{ color: 'secondary.main' }} />}
+              expandIcon={<ExpandMoreIcon sx={{ color: 'info.main' }} />}
               aria-controls="panel1a-content"
               id="panel1a-header"
               sx={{
                 color: 'var(--main-text-color)',
               }}
             >
-              <AirplaneTicketIcon sx={{ color: 'var(--icao-bg-color)' }} />
+              <AirplaneTicketIcon sx={{ color: 'primary.main' }} />
               <span className="panel-information__summary_name">
-                More{' '}
-                <span className="value">
-                  {flightStatusObj.identification?.callsign || 'N/A'}
-                </span>{' '}
+                More {flightStatusObj.identification?.callsign || 'N/A'}
                 information
               </span>
             </AccordionSummary>
@@ -284,7 +283,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           </Accordion>
           <Paper
             sx={{
-              backgroundColor: 'primary.light',
+              backgroundColor: 'background.default',
               color: 'var(--main-text-color)',
             }}
           >
@@ -300,10 +299,7 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
               >
                 <AirplanemodeActiveIcon
                   sx={{
-                    color: 'var(--main-text-color)',
-                    background: 'var(--icao-bg-color)',
-                    borderRadius: '50%',
-                    padding: '5px',
+                    color: 'info.light',
                   }}
                 />
               </Grid>
@@ -311,63 +307,86 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
               <Grid item xs>
                 <Grid container direction="column" alignItems="stretch">
                   <Grid className="gridItem" sx={{ padding: '4px' }} item xs>
-                    <div className="param">AIRCRAFT TYPE</div>
-                    <div className="value">
+                    <Typography className="param">AIRCRAFT TYPE</Typography>
+                    <Typography
+                      className="value"
+                      sx={{ color: 'secondary.main' }}
+                    >
                       {flightStatusObj.aircraft?.model?.text || 'N/A'}
-                    </div>
-                    <div className="param">REGISTRATION</div>
-                    <div className="value">
+                    </Typography>
+                    <Typography className="param">REGISTRATION</Typography>
+                    <Typography
+                      className="value"
+                      sx={{ color: 'secondary.main' }}
+                    >
                       {flightStatusObj.aircraft?.registration || 'N/A'}
-                    </div>
-                    <div className="param">COUNTRY OF REG.</div>
-                    <div className="value">
-                      {/* <img src={getFlag(flightStatusObj.aicraft.countryId)} /> */}
-                    </div>
+                    </Typography>
+                    {/* <Typography className="param">COUNTRY OF REG.</Typography> */}
                   </Grid>
                   <Divider className="devider-hor" />
                   <Grid className="gridItem" sx={{ padding: '4px' }} item xs>
-                    <div className="param">CALIBRATED ALT.</div>
-                    <div className="value">
+                    <Typography className="param">CALIBRATED ALT.</Typography>
+                    <Typography
+                      className="value"
+                      sx={{ color: 'secondary.main' }}
+                    >
                       {flightStatusObj?.dataFlight
                         ? flightStatusObj?.dataFlight[4]
                         : 0}
                       ft
-                    </div>
-                    <div className="param">TRACK</div>
-                    <div className="value">
+                    </Typography>
+                    <Typography className="param">TRACK</Typography>
+                    <Typography
+                      className="value"
+                      sx={{ color: 'secondary.main' }}
+                    >
                       {flightStatusObj.dataFlight
                         ? flightStatusObj.dataFlight[3]
                         : 0}
                       °
-                    </div>
-                    <div className="param">GROUND SPEED </div>
-                    <div className="value">
+                    </Typography>
+                    <Typography className="param">GROUND SPEED </Typography>
+                    <Typography
+                      className="value"
+                      sx={{ color: 'secondary.main' }}
+                    >
                       {flightStatusObj.dataFlight
                         ? flightStatusObj.dataFlight[5]
                         : 0}
                       kts
-                    </div>
+                    </Typography>
                   </Grid>
                   <Divider className="devider-hor" />
                   <Grid className="gridItem" sx={{ padding: '4px' }} item xs>
-                    <div className="param">ICAO 24-BIT ADDRESS</div>
-                    <div className="value">
+                    <Typography className="param">
+                      ICAO 24-BIT ADDRESS
+                    </Typography>
+                    <Typography
+                      className="value"
+                      sx={{ color: 'secondary.main' }}
+                    >
                       {flightStatusObj.dataFlight
                         ? flightStatusObj.dataFlight[0]
                         : 0}
-                    </div>
-                    <div className="param">LATITUDE</div>
-                    <div className="value">
+                    </Typography>
+                    <Typography className="param">LATITUDE</Typography>
+                    <Typography
+                      className="value"
+                      sx={{ color: 'secondary.main' }}
+                    >
                       {flightStatusObj.dataFlight
                         ? flightStatusObj.dataFlight[1]
                         : 0}
-                    </div>
-                    <div className="param">LONGITUDE</div>
-                    <div className="value">
+                    </Typography>
+                    <Typography className="param">LONGITUDE</Typography>
+                    <Typography
+                      className="value"
+                      sx={{ color: 'secondary.main' }}
+                    >
                       {flightStatusObj.dataFlight
                         ? flightStatusObj.dataFlight[2]
                         : 0}
-                    </div>
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -375,13 +394,13 @@ function FlightInfoPanel({ flightStatusObj }: FlightInfoPanelProps) {
           </Paper>
           <div className="panel-footer">
             <div>
-              <RemoveRedEyeIcon sx={{ color: 'secondary.light' }} />
+              <RemoveRedEyeIcon sx={{ color: 'info.light' }} />
             </div>
             <div>
-              <ShareIcon sx={{ color: 'secondary.light' }} />
+              <ShareIcon sx={{ color: 'info.light' }} />
             </div>
             <div>
-              <MoreHorizIcon sx={{ color: 'secondary.light' }} />
+              <MoreHorizIcon sx={{ color: 'info.light' }} />
             </div>
           </div>
         </AccordionDetails>

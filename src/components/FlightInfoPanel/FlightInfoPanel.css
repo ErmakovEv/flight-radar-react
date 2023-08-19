@@ -13,7 +13,6 @@
 }
 
 .accordion-details::-webkit-scrollbar-thumb {
-  background-color: #3da58a;
   border-radius: 3px;
 }
 
@@ -24,7 +23,6 @@
   left: 10px;
   z-index: 100;
   font-family: Roboto;
-  color: var(--main-bg-color);
 }
 
 .panel::-webkit-scrollbar {
@@ -39,23 +37,19 @@
 .call-sign {
   margin-right: 10px;
   font-size: 18px;
-  background: #3da58a;
   border-radius: 3px;
   padding: 2px;
-  /* color: #3da58a; */
 }
 
 .flight-number {
   padding: 2px;
   margin-right: 5px;
   font-size: 12px;
-  /* color: #3da58a; */
 }
 
 .aircraft-icao {
   padding: 2px;
   font-size: 12px;
-  /* background: #1e5245; */
   border-radius: 3px;
 }
 
@@ -73,7 +67,7 @@
 .timeline {
   width: 100%;
   height: 8px;
-  background-color: #1e5245;
+  /* background-color: #215f7b; */
 
   margin-top: 16px;
   position: relative;
@@ -81,16 +75,14 @@
 
 .progress {
   height: 100%;
-  background-color: #3da58a;
+  /* background-color: #3da58a; */
 
   /* width: 75%; */
 }
 
 .progress-icon {
   top: -8px;
-  /* left: 70%; */
   transform: rotate(90deg);
-  color: var();
   position: absolute;
 }
 
@@ -123,8 +115,6 @@
 }
 
 .icon-devider {
-  color: var(--main-text-color);
-  background: var(--icao-bg-color);
   border-radius: 50%;
   padding: 5px;
   top: 15%;
@@ -141,7 +131,6 @@
 .time-value {
   font-size: 15px;
   padding-right: 5px;
-  color: var(--main-color);
 }
 
 .img {
@@ -149,17 +138,14 @@
 }
 
 .devider {
-  background-color: var(--icao-bg-color);
   width: 1px;
 }
 
 .devider-top {
-  background-color: var(--icao-bg-color);
   width: 2px;
 }
 
 .devider-hor {
-  background-color: var(--icao-bg-color);
   height: 1px;
 }
 
@@ -181,7 +167,6 @@
 
 .value {
   font-size: 14px;
-  color: var(--main-color);
 }
 
 .panel-footer {
@@ -190,5 +175,4 @@
   align-items: center;
   margin-top: 10px;
   padding: 10px;
-  background: var(--main-bg-color);
 }

@@ -37,6 +37,7 @@
     "react-redux": "^8.0.7",
     "react-router-dom": "^6.11.2",
     "react-scroll": "^1.8.9",
+    "react-swipeable-views-utils": "^0.14.0",
     "sort-by": "^1.2.0",
     "x-data-grid": "^2.1.0"
   },
@@ -46,6 +47,7 @@
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@types/react-scroll": "^1.8.7",
+    "@types/react-swipeable-views-utils": "^0.13.4",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "@vitejs/plugin-react": "^4.0.0",

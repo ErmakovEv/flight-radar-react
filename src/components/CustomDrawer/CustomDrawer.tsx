@@ -27,7 +27,8 @@ function CustomDrawer({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: 'primary.light',
+          backgroundColor: 'background.default',
+          zIndex: 102,
         }}
       >
         <Toolbar />
