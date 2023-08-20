@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import LoginIcon from '@mui/icons-material/Login';
 import {
   Avatar,
   Box,
@@ -67,11 +67,8 @@ function LoginForm() {
           }}
         >
           <Avatar sx={{ m: 1, backgroundColor: 'secondary.main' }}>
-            <PersonAddIcon />
+            <LoginIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Create User
-          </Typography>
           <Box
             component="form"
             onSubmit={handleSubmit}
