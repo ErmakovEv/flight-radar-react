@@ -1,10 +1,4 @@
-import {
-  Paper,
-  MenuList,
-  MenuItem,
-  ListItemIcon,
-  IconButton,
-} from '@mui/material';
+import { Paper, MenuList, MenuItem, ListItemIcon } from '@mui/material';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import SettingsIcon from '@mui/icons-material/Settings';

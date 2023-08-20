@@ -24,7 +24,7 @@ function LogoButtom() {
         }}
       >
         <Typography variant="subtitle2" color="inherit" className="logo">
-          FligthScanner
+          FLYScanner
         </Typography>
       </NavLink>
     </Button>

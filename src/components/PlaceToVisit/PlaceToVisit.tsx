@@ -1,4 +1,3 @@
-import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import { useState } from 'react';
 import HomePageCard from '../HomePageCard/HomePageCard';
 import HomeCarousel from '../HomeCarousel/HomeCarousel';

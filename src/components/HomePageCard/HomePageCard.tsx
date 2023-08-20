@@ -2,11 +2,14 @@
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Collapse from '@mui/material/Collapse/Collapse';
-import img1 from '../../img/card1.jpeg';
-import img2 from '../../img/card2.jpeg';
-import img3 from '../../img/card6.jpeg';
+import { useAppSelector } from '../../hooks/redux';
+import vid1 from '../../img/1.webm';
+import vid2 from '../../img/2.webm';
+import vid3 from '../../img/3.webm';
+import vid4 from '../../img/4.webm';
 
-const images = [img1, img2, img3];
+const darkVids = [vid1, vid3];
+const lightVids = [vid2, vid4];
 
 export default function HomePageCard({
   checked,
@@ -15,16 +18,26 @@ export default function HomePageCard({
   checked: boolean;
   step: number;
 }) {
+  const theme = useAppSelector((state) => state.theme);
+
+  let videos;
+  if (theme.darkTheme) {
+    videos = darkVids;
+  } else {
+    videos = lightVids;
+  }
+
   return (
-    <div style={{ width: '50%' }}>
+    <div style={{ width: '40%' }}>
       <Collapse in={checked} {...(checked ? { timeout: 1000 } : {})}>
         <Card
           sx={{
             background: 'rgba(0, 0, 0, 0.5)',
             m: 1,
+            border: `5px solid #239fd8`,
           }}
         >
-          <CardMedia component="img" alt="green iguana" image={images[step]} />
+          <CardMedia component="video" image={videos[step]} autoPlay />
         </Card>
       </Collapse>
     </div>

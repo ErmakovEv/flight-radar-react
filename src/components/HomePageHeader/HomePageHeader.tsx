@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { AppBar, Box, IconButton, Collapse, Stack } from '@mui/material';
+import { Box, IconButton, Collapse, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Link as Scroll } from 'react-scroll';
@@ -37,14 +37,25 @@ function HomePageHeader({
       style={{
         backgroundImage: `url(${thema ? bg : bg1})`,
         backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundSize: '50%',
+        backgroundPosition: 'center center',
+        backgroundSize: '50vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-around',
       }}
     >
-      <Box sx={{ color: 'secondary.main' }}>Это учебное приложение</Box>
+      <Box sx={{ color: 'secondary.main', width: '70%' }}>
+        <Typography
+          variant="body2"
+          sx={{ color: 'secondary.main', textAlign: 'justify' }}
+        >
+          Это страница учебного приложения FlyScanner, в котором вы можете
+          наблюдать за полетом воздушных судов, а также управлять учетными
+          записями и дополнительными слоями на карте. Приложение разработано с
+          исользованием Vite, TypeScript, React, Redux, MUI, Leaflet, Node,
+          Express.js, PostgreSql, JWT, API FlyRadar и др.
+        </Typography>
+      </Box>
       <Box
         sx={{
           display: 'flex',
@@ -54,15 +65,18 @@ function HomePageHeader({
         }}
       >
         <Collapse in={check} {...(check ? { timeout: 1000 } : {})}>
-          <h1
+          {/* <h1
             style={{
               fontFamily: 'Bebas Neue',
               fontSize: '5vw',
               fontWeight: 200,
             }}
-          >
+          > */}
+          <Typography variant="h3" sx={{ fontFamily: 'Bebas Neue' }}>
             Wellcome to my App
-          </h1>
+          </Typography>
+
+          {/* </h1> */}
         </Collapse>
       </Box>
       <Box>

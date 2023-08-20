@@ -56,6 +56,9 @@ function CustomZoom({ home }: { home: number[] }) {
           FabProps={{
             className: 'SpeedDial',
             color: 'inherit',
+            sx: {
+              bgcolor: 'background.default',
+            },
           }}
           ariaLabel="SpeedDial openIcon example"
           sx={{
