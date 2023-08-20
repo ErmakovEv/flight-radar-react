@@ -47,7 +47,7 @@ function HomePageHeader({
       <Box sx={{ color: 'secondary.main', width: '70%' }}>
         <Typography
           variant="body2"
-          sx={{ color: 'secondary.main', textAlign: 'justify' }}
+          sx={{ color: 'secondary.main', textAlign: 'center' }}
         >
           Это страница учебного приложения FlyScanner, в котором вы можете
           наблюдать за полетом воздушных судов, а также управлять учетными
@@ -72,10 +72,22 @@ function HomePageHeader({
               fontWeight: 200,
             }}
           > */}
-          <Typography variant="h3" sx={{ fontFamily: 'Bebas Neue' }}>
-            Wellcome to my App
+          <Typography
+            variant="h3"
+            sx={{ fontFamily: 'Bebas Neue', textAlign: 'center' }}
+          >
+            Wellcome to
           </Typography>
-
+          <Typography
+            variant="h3"
+            sx={{
+              fontFamily: 'Bebas Neue',
+              textAlign: 'center',
+              color: 'primary.main',
+            }}
+          >
+            FlyScanner
+          </Typography>
           {/* </h1> */}
         </Collapse>
       </Box>
