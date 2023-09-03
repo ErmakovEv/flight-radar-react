@@ -52,7 +52,7 @@ function HomePageHeader({
           Это страница учебного приложения FlyScanner, в котором вы можете
           наблюдать за полетом воздушных судов, а также управлять учетными
           записями и дополнительными слоями на карте. Приложение разработано с
-          исользованием Vite, TypeScript, React, Redux, MUI, Leaflet, Node,
+          использованием Vite, TypeScript, React, Redux, MUI, Leaflet, Node,
           Express.js, PostgreSql, JWT, API FlyRadar и др.
         </Typography>
       </Box>
