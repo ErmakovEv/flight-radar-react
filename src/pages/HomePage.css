@@ -1,0 +1,21 @@
+.Home {
+  min-height: 100vh;
+  /* background-image: url('/assets/bg.png');
+  background-repeat: no-repeat;
+  background-position: center; */
+}
+
+.Header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.place {
+  height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}

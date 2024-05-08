@@ -1,0 +1,178 @@
+.img {
+  width: 100%;
+  border-radius: 3px;
+}
+
+.accordion-details {
+  max-height: 70vh;
+  overflow-y: scroll;
+}
+
+.accordion-details::-webkit-scrollbar {
+  width: 4px;
+}
+
+.accordion-details::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+}
+
+.panel {
+  box-sizing: border-box;
+  position: fixed;
+  top: 100px;
+  left: 10px;
+  z-index: 100;
+  font-family: Roboto;
+}
+
+.panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.panel::-webkit-scrollbar-thumb {
+  background-color: #3da58a;
+  border-radius: 3px;
+}
+
+.call-sign {
+  margin-right: 10px;
+  font-size: 18px;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+.flight-number {
+  padding: 2px;
+  margin-right: 5px;
+  font-size: 12px;
+}
+
+.aircraft-icao {
+  padding: 2px;
+  font-size: 12px;
+  border-radius: 3px;
+}
+
+.panel-timeline-container {
+  margin: 0 auto;
+  width: 95%;
+  margin-top: 10px;
+  padding-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.timeline {
+  width: 100%;
+  height: 8px;
+  /* background-color: #215f7b; */
+
+  margin-top: 16px;
+  position: relative;
+}
+
+.progress {
+  height: 100%;
+  /* background-color: #3da58a; */
+
+  /* width: 75%; */
+}
+
+.progress-icon {
+  top: -8px;
+  transform: rotate(90deg);
+  position: absolute;
+}
+
+.panel-timeline-info {
+  width: 100%;
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  font-size: 12px;
+}
+
+.panel-shedule {
+  text-align: center;
+}
+
+.airport-icao {
+  font-size: 30px;
+  line-height: 1.3;
+}
+
+.airport-city {
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 2;
+}
+
+.airport-time {
+  font-size: 10px;
+}
+
+.icon-devider {
+  border-radius: 50%;
+  padding: 5px;
+  top: 15%;
+  left: -20px;
+}
+
+.time-tipe {
+  font-size: 12px;
+  text-transform: uppercase;
+  padding-right: 5px;
+  line-height: 2;
+}
+
+.time-value {
+  font-size: 15px;
+  padding-right: 5px;
+}
+
+.img {
+  width: 100%;
+}
+
+.devider {
+  width: 1px;
+}
+
+.devider-top {
+  width: 2px;
+}
+
+.devider-hor {
+  height: 1px;
+}
+
+.MuiAccordionSummary-content {
+  display: flex;
+  align-items: center;
+}
+
+.panel-information__summary_name {
+  font-size: 14px;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.param {
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.value {
+  font-size: 14px;
+}
+
+.panel-footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+}

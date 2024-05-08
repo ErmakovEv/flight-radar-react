@@ -1,0 +1,65 @@
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background-color: #e0e0e0 !important;
+}
+
+.panel-airport {
+  margin-bottom: 3px;
+}
+
+.panel-airport-header__name {
+  color: #1e5245;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.panel-airport-header__code {
+  margin-bottom: 3px;
+}
+
+.panel-airport-header__code-iata {
+  padding: 2px;
+  margin-right: 5px;
+  font-size: 12px;
+  color: #a1a4ab;
+  background: #1e5245;
+  border-radius: 3px;
+}
+
+.panel-airport-header__country {
+  margin-bottom: 3px;
+  text-transform: uppercase;
+}
+
+.panel-airport-header__code-icao {
+  padding: 2px;
+  font-size: 12px;
+  background: var(--icao-bg-color);
+  border-radius: 3px;
+}
+
+.panel-airport-header__time {
+  color: var(--main-text-color);
+  margin-bottom: 3px;
+}
+
+.panel-airport-header__img {
+  margin-bottom: 3px;
+}
+
+.param {
+  color: var(--main-text-color);
+  font-size: 11px !important;
+  text-align: center;
+}
+
+.value {
+  text-align: center;
+  font-size: 11px !important;
+  color: var(--main-color);
+}
+
+.devider {
+  background-color: var(--icao-bg-color);
+  width: 1px;
+}

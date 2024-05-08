@@ -1,0 +1,22 @@
+.modal {
+  box-sizing: border-box;
+  position: fixed;
+  top: 100px;
+  left: 10px;
+  z-index: 100;
+  font-family: Roboto;
+}
+
+.modal::-webkit-scrollbar {
+  width: 4px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+  background-color: #3da58a;
+  border-radius: 3px;
+}
+
+.modal-details {
+  max-height: 70vh;
+  overflow-y: scroll;
+}
